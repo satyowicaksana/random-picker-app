@@ -3,19 +3,20 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import {
   Home,
-  Other
+  Numbers
 } from 'views'
-import './App.css';
+import './App.less';
 
 const App = () => (
   <Router>
     <Suspense fallback={<div>Loading...</div>}>
       <Switch>
-        <Route path="/other">
-          <Other />
+        <Route path="/numbers">
+          <Numbers />
         </Route>
         <Route path="/">
           <Home />
+        {/*<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>*/}
         </Route>
       </Switch>
     </Suspense>

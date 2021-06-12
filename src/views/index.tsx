@@ -1,9 +1,9 @@
 import { lazy } from 'react';
 
 const Home = lazy(() => import('./Home'));
-const Other = lazy(() => import('./Other'));
+const Numbers = lazy(() => import('./Numbers'));
 
 export {
   Home,
-  Other
+  Numbers
 }

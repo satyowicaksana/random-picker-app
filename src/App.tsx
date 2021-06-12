@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import {
@@ -8,14 +9,16 @@ import './App.css';
 
 const App = () => (
   <Router>
-    <Switch>
-      <Route path="/other">
-        <Other />
-      </Route>
-      <Route path="/">
-        <Home />
-      </Route>
-    </Switch>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route path="/other">
+          <Other />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Suspense>
   </Router>
 );
 

@@ -10,7 +10,7 @@ const Home = () => {
   const history = useHistory()
 
   return (
-    <div className='home-container p-3'>
+    <div className='home-container'>
       <Title level={3} className='mb-2'>Randomize!</Title>
       <Row gutter={24}>
         {menuItems.map(item => (

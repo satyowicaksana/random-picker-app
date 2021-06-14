@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Row, Col, InputNumber, Button, Typography, Form } from 'antd'
+import { useState, useEffect } from 'react'
+import { Row, Col, InputNumber, Button, Typography, Form, notification } from 'antd'
 import { KeyboardEventHandler } from 'react'
 
 import './style.less'
@@ -11,13 +11,48 @@ const Numbers = () => {
   const [toggleCardZoom, setToggleCardZoom] = useState(false)
   const [randomNumber, setRandomNumber] = useState<number | undefined>(undefined)
 
+  useEffect(() => {
+    if(form) {
+      form.setFieldsValue({
+        min: 1,
+        max: 100
+      })
+    }
+  }, [form])
+
   const getRandomInteger = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  const validateForm = (values: any) => {
+    const {min, max} = values
+    let valid = true
+    if(!min || !max) {
+      notification.error({
+        message: 'Please input the number range',
+        placement: 'bottomRight',
+        duration: 2,
+        key: 'number-range-error',
+      })
+      valid = false
+    } else if(min > max) {
+      notification.error({
+        message: 'Min cannot be larger than max',
+        placement: 'bottomRight',
+        duration: 2,
+        key: 'number-larger-error',
+      })
+      valid = false
+    }
+    if(!valid) {
+      setRandomNumber(undefined)
+    }
+    return valid
+  }
+
   const handleFinish = (values: any) => {
     const {min, max} = values
-    if(min && max) {
+    if(validateForm(values)) {
       setRandomNumber(getRandomInteger(min, max))
       setToggleCardZoom(true)
     }
@@ -36,20 +71,22 @@ const Numbers = () => {
           <Col span={12}>
             <Form.Item name='min'>
               <InputNumber
-                type='number'
                 size='large'
                 placeholder='Min' 
                 onKeyDown={handleInputNumberKeyDown}
+                formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={value => `${value}`.replace(/,*/g, '')}
               />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item name='max'>
               <InputNumber
-                type='number'
                 size='large'
                 placeholder='Max' 
                 onKeyDown={handleInputNumberKeyDown}
+                formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={value => `${value}`.replace(/,*/g, '')}
               />
             </Form.Item>
           </Col>
@@ -60,25 +97,27 @@ const Numbers = () => {
           </Button>
         </Form.Item>
       </Form>
-        <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card ${toggleCardZoom && 'zoom'}`}>
-          <div>
-            <Title
-              level={
-                String(randomNumber).length <= 3
-                ? 1
-                : String(randomNumber).length <= 6
-                ? 2
-                : String(randomNumber).length <= 9
-                ? 3
-                : String(randomNumber).length <= 12
-                ? 4
-                : 5
-              }
-            >
-              {randomNumber}
-            </Title>
+        {randomNumber !== undefined && (
+          <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card ${toggleCardZoom && 'zoom'}`}>
+            <div>
+              <Title
+                level={
+                  String(randomNumber).length <= 3
+                  ? 1
+                  : String(randomNumber).length <= 6
+                  ? 2
+                  : String(randomNumber).length <= 9
+                  ? 3
+                  : String(randomNumber).length <= 12
+                  ? 4
+                  : 5
+                }
+              >
+                {`${randomNumber}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </Title>
+            </div>
           </div>
-        </div>
+        )}
     </div>
   )
 }

@@ -11,7 +11,6 @@ const Home = () => {
 
   return (
     <div className='home-container'>
-      <Title level={3} className='mb-2'>Randomize!</Title>
       <Row gutter={24}>
         {menuItems.map(item => (
           <Col key={item.value} span={12}>

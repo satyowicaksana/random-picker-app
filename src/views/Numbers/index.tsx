@@ -72,7 +72,8 @@ const Numbers = () => {
             <Form.Item name='min'>
               <InputNumber
                 size='large'
-                placeholder='Min' 
+                placeholder='Min'
+                maxLength={13}
                 onKeyDown={handleInputNumberKeyDown}
                 formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 parser={value => `${value}`.replace(/,*/g, '')}
@@ -83,7 +84,8 @@ const Numbers = () => {
             <Form.Item name='max'>
               <InputNumber
                 size='large'
-                placeholder='Max' 
+                placeholder='Max'
+                maxLength={13}
                 onKeyDown={handleInputNumberKeyDown}
                 formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 parser={value => `${value}`.replace(/,*/g, '')}
@@ -108,9 +110,7 @@ const Numbers = () => {
                   ? 2
                   : String(randomNumber).length <= 9
                   ? 3
-                  : String(randomNumber).length <= 12
-                  ? 4
-                  : 5
+                  : 4
                 }
               >
                 {`${randomNumber}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}

@@ -20,8 +20,8 @@ const Coin = () => {
 
   return (
     <div className='coin-container'>
-      <div onAnimationEnd={() => setToggleFlip(false)} className={`coin ${toggleFlip ? 'flip' : ''}`}>
-        <div className='coin-front p-3'>
+      <div onAnimationEnd={() => setToggleFlip(false)} className={`coin ${toggleFlip ? 'flip' : ''} mb-1`}>
+        <div className='coin-front p-2'>
           {front !== 'tail'
           ? <img src={head} alt='head' className='coin-icon' />
           : <img src={tail} alt='tail' className='coin-icon' />
@@ -38,14 +38,13 @@ const Coin = () => {
           : <img src={tail} alt='tail' className='coin-icon' />
           }
         </div>
-        {(front && !toggleFlip) && (
-          <div className='coin-flip-result'>
-            <Title type='secondary' level={3}>{front.toUpperCase()}</Title>
-          </div>
-        )}
         <div className='coin-shadow'/>
       </div>
-
+      <div className='coin-flip-result mb-2'>
+      {(front && !toggleFlip) && (
+        <Title type='secondary' level={3}>{front.toUpperCase()}</Title>
+      )}
+      </div>
       <Button onClick={handleClickFlip} type='primary' size='large'>Flip</Button>
     </div>
   )

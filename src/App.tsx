@@ -5,7 +5,9 @@ import {
   Navbar,
   Home,
   Numbers,
-  Coin
+  Coin,
+  Wheel,
+  Dice
 } from 'views'
 import './App.less';
 
@@ -20,6 +22,12 @@ const App = () => (
           </Route>
           <Route path="/coin">
             <Coin />
+          </Route>
+          <Route path="/wheel">
+            <Wheel />
+          </Route>
+          <Route path="/dice">
+            <Dice />
           </Route>
           <Route path="/">
             <Home />

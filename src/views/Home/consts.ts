@@ -1,7 +1,8 @@
 
 import {
   numbers,
-  coin
+  coin,
+  dice
 } from 'assets'
 
 export const menuItems = [
@@ -14,5 +15,10 @@ export const menuItems = [
     value: 'coin',
     label: 'Coin Flip',
     imageUrl: coin,
+  },
+  {
+    value: 'dice',
+    label: 'Dice Roll',
+    imageUrl: dice,
   }
 ]

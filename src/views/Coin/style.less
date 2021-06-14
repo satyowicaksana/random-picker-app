@@ -86,6 +86,12 @@
   opacity: 0.125;
   transform: rotateX(90deg) translateZ(-@coin-diameter*1.1) scale(.5);
 }
+.coin-flip-result {
+  position: absolute;
+  top: calc(@coin-diameter + 8px);
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 @keyframes rotate3d {
   0% {
     transform: perspective(1000px) rotateY(0deg);

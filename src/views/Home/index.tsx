@@ -14,7 +14,7 @@ const Home = () => {
       <Row gutter={24}>
         {menuItems.map(item => (
           <Col key={item.value} span={12}>
-            <div onClick={() => history.push(`/${item.value}`)} className='home-card card mb-3 p-1'>
+            <div onClick={() => history.push(`/${item.value}`)} className='home-card card clickable mb-3 p-1'>
               <div className='home-card-content'>
                 <img src={item.imageUrl} alt={item.value} className='mb-2'/>
                 <div>

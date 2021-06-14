@@ -1,0 +1,105 @@
+@import 'lib.less';
+
+@coin-diameter: 100px;
+@coin-thickness: 10px;
+@coin-color: #ffda60;
+@edge-faces: 80;
+@edge-face-length: 3.14*@coin-diameter/@edge-faces;
+@turn-time: 0.5s;
+@shine-time: 4s;
+
+.ant-btn {
+  min-width: 160px;
+}
+.coin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.coin {
+  position: relative;
+  width: @coin-diameter;
+  height: @coin-diameter;
+  margin: 50px auto;
+  transform-style: preserve-3d;
+  transition: all .3s;
+  &.flip {
+    animation: rotate3d @turn-time linear;
+  }
+}
+.coin-front,
+.coin-back {
+  position: absolute;
+  width: @coin-diameter;
+  height: @coin-diameter;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: @coin-color;
+  &:after {
+    content: "";
+    position: absolute;
+    left: -@coin-diameter/2;
+    bottom: 100%;
+    display: block;
+    height: @coin-diameter/4;
+    width: @coin-diameter*2;
+    background: #fff;
+    opacity: 0.3;
+    animation: shine @shine-time linear infinite;
+  }
+}
+.coin-front {
+  transform: translateZ(@coin-thickness/2);
+}
+.coin-back {
+  transform: translateZ(-@coin-thickness/2) rotateY(180deg);
+}
+.coin-icon {
+  opacity: 0.3
+}
+.coin-edge {
+  .loop(@i) when (@i > 0) {
+    .loop(@i - 1);
+    div {
+      &:nth-child(@{i}) {
+        background: darken( @coin-color, ( (@i - @edge-faces/2) * (@i - @edge-faces/2)) / (@edge-faces*@edge-faces/4) * 100 * 0.4 );;
+        height: @edge-face-length;
+        position: absolute;
+        transform: translateY(@coin-diameter/2-@edge-face-length/2)
+        translateX(@coin-diameter/2-@coin-thickness/2)
+        rotateZ(360deg/@edge-faces*@i+90)
+        translateX(@coin-diameter/2)
+        rotateY(90deg);
+        width: @coin-thickness;
+      }
+    }
+  }
+  /* Run the loop */
+  .loop(@edge-faces);
+}
+.coin-shadow {
+  position: absolute;
+  width: @coin-diameter;
+  height: @coin-thickness;
+  border-radius: 50%;
+  box-shadow: 0 0 @coin-thickness*5 @coin-thickness*5 rgb(150, 150, 150);
+  opacity: 0.125;
+  transform: rotateX(90deg) translateZ(-@coin-diameter*1.1) scale(.5);
+}
+@keyframes rotate3d {
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+
+  100% {
+    transform: perspective(1000px) rotateY(360deg * 2);
+  }
+}
+@keyframes shine {
+  0%, 15% {
+    transform: translateY(@coin-diameter*2) rotate(-40deg);
+  }
+  50% {
+    transform: translateY(-@coin-diameter) rotate(-40deg);
+  }
+}

@@ -100,7 +100,7 @@ const Numbers = () => {
         </Form.Item>
       </Form>
         {randomNumber !== undefined && (
-          <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card ${toggleCardZoom && 'zoom'}`}>
+          <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card ${toggleCardZoom ? 'zoom' : ''}`}>
             <div>
               <Title
                 level={

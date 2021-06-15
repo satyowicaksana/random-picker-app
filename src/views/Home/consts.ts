@@ -2,7 +2,8 @@
 import {
   numbers,
   coin,
-  dice
+  dice,
+  wheel
 } from 'assets'
 
 export const menuItems = [
@@ -20,5 +21,10 @@ export const menuItems = [
     value: 'dice',
     label: 'Dice Roll',
     imageUrl: dice,
+  },
+  {
+    value: 'wheel',
+    label: 'Spin Wheel',
+    imageUrl: wheel,
   }
 ]

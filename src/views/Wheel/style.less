@@ -1,1 +1,18 @@
 @import 'lib.less';
+
+.wheel-wheel {
+  position: relative;
+  height: 200px;
+  width: 200px;
+  background-color: tomato;
+  border-radius: 50%;
+}
+.wheel-wheel-slice {
+  position: absolute;
+  height: 200px;
+  width: 200px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background-color: pink;
+  top: 50%;
+  transform: rotate(90deg);
+}

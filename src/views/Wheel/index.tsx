@@ -17,6 +17,7 @@ const WheelView = () => {
   const [names, setNames] = useState<WheelData[]>([{option: ''}])
   const [isSpinning, setIsSpinning] = useState(false);
   const [spinResult, setSpinResult] = useState(0);
+  const [displayedSpinResult, setDisplayedSpinResult] = useState('');
 
   useEffect(() => {
     if(namesInput) {
@@ -27,15 +28,21 @@ const WheelView = () => {
   }, [namesInput])
 
   const handleSpinClick = () => {
-    setSpinResult(randomizer.getRandomInteger(0, names.length))
     setIsSpinning(true)
+    setSpinResult(randomizer.getRandomInteger(0, names.length))
+    setDisplayedSpinResult('')
+  }
+
+  const handleClickStopSpinning = () => {
+    setIsSpinning(false)
+    setDisplayedSpinResult(names[spinResult].option)
   }
 
   return (
     <div className='wheel-container centering-flex'>
       <div className='wheel-content-container'>
-        <Row gutter={24}>
-          <Col xs={24} md={12} className='centering-flex'>
+        <Row gutter={{xs: 0, lg: 80}}>
+          <Col xs={24} lg={12} className='centering-flex'>
             <div className='wheel-wheel-container mb-2'>
               <Wheel
                 mustStartSpinning={isSpinning}
@@ -47,13 +54,17 @@ const WheelView = () => {
                 radiusLineColor={namesInput ? '#7e90a7' : undefined}
                 outerBorderColor={'#3d4e64'}
                 outerBorderWidth={16}
-                onStopSpinning={() => setIsSpinning(false)}
+                onStopSpinning={handleClickStopSpinning}
               />
               <Button disabled={isSpinning || names.length <= 1} onClick={handleSpinClick} className='wheel-spin-button'>
                 {!isSpinning && names.length > 1 ? 'SPIN' : ' '}
               </Button>
             </div>
-            {!isSpinning && <p>{names[spinResult]?.option}</p>}
+            <div className='wheel-result-container mb-2'>
+              {displayedSpinResult && (
+                <Title type='secondary' level={3}>{displayedSpinResult}</Title>
+              )}
+            </div>
           </Col>
           <Col xs={24} lg={12}>
             <TextArea

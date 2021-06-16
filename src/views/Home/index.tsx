@@ -13,7 +13,7 @@ const Home = () => {
     <div className='home-container'>
       <Row gutter={24}>
         {menuItems.map(item => (
-          <Col key={item.value} span={12}>
+          <Col key={item.value} xs={12} md={6}>
             <div onClick={() => history.push(`/${item.value}`)} className='home-card card clickable mb-3 p-1'>
               <div className='home-card-content'>
                 <img src={item.imageUrl} alt={item.value} className='mb-2'/>

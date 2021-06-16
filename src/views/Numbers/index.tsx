@@ -67,39 +67,42 @@ const Numbers = () => {
   return (
     <div className='numbers-container'>
       <Form  form={form} onFinish={handleFinish}>
-        <Row gutter={16} className='mb-2'>
-          <Col span={12}>
-            <Form.Item name='min'>
-              <InputNumber
-                size='large'
-                placeholder='Min'
-                maxLength={13}
-                onKeyDown={handleInputNumberKeyDown}
-                formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={value => `${value}`.replace(/,*/g, '')}
-              />
+        <Row gutter={24}>
+          <Col xs={24} md={12}>
+            <Row gutter={16} className='mb-2'>
+              <Col span={12}>
+                <Form.Item name='min'>
+                  <InputNumber
+                    size='large'
+                    placeholder='Min'
+                    maxLength={13}
+                    onKeyDown={handleInputNumberKeyDown}
+                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    parser={value => `${value}`.replace(/,*/g, '')}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name='max'>
+                  <InputNumber
+                    size='large'
+                    placeholder='Max'
+                    maxLength={13}
+                    onKeyDown={handleInputNumberKeyDown}
+                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    parser={value => `${value}`.replace(/,*/g, '')}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Form.Item>
+              <Button type='primary' htmlType='submit' size='large' className='mb-3'>
+                Get Random Number
+              </Button>
             </Form.Item>
           </Col>
-          <Col span={12}>
-            <Form.Item name='max'>
-              <InputNumber
-                size='large'
-                placeholder='Max'
-                maxLength={13}
-                onKeyDown={handleInputNumberKeyDown}
-                formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={value => `${value}`.replace(/,*/g, '')}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item>
-          <Button type='primary' htmlType='submit' size='large' className='mb-3'>
-            Get Random Number
-          </Button>
-        </Form.Item>
-      </Form>
-        {randomNumber !== undefined && (
+          <Col xs={24} md={12}>
+          {randomNumber !== undefined && (
           <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card ${toggleCardZoom ? 'zoom' : ''}`}>
             <div>
               <Title
@@ -118,6 +121,9 @@ const Numbers = () => {
             </div>
           </div>
         )}
+          </Col>
+        </Row>
+      </Form>
     </div>
   )
 }

@@ -1,10 +1,13 @@
 @import 'lib.less';
 
+.wheel-content-container {
+  width: 100%;
+  max-width: 1000px;
+}
 .wheel-wheel {
   position: relative;
   height: 200px;
   width: 200px;
-  background-color: tomato;
   border-radius: 50%;
 }
 .wheel-wheel-slice {
@@ -15,4 +18,20 @@
   background-color: pink;
   top: 50%;
   transform: rotate(90deg);
+}
+.wheel-wheel-container {
+  position: relative;
+}
+.wheel-spin-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  border-radius: 50%;
+  height: 50px;
+  min-width: 50px;
+}
+.wheel-names-input {
+  width: 100%;
 }

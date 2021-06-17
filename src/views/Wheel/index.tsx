@@ -47,31 +47,32 @@ const WheelView = () => {
               <Wheel
                 mustStartSpinning={isSpinning}
                 prizeNumber={spinResult}
-                data={names}
-                backgroundColors={namesInput ? ['#FFCF5D', '#50E267', '#00F4F5', '#527AAC', '#FF5368', '#FF983B'] : undefined}
-                textColors={['#a7863a', '#359744', '#018b8b', '#304661', '#972f3c', '#9e5e27']}
-                radiusLineWidth={names.length > 1 ? 1 : 0}
-                radiusLineColor={namesInput ? '#7e90a7' : undefined}
+                data={names.map(name  => ({option: name.option.length > 10 ? `${name.option.substring(0, 10)}...` : name.option}))} // truncate names
+                backgroundColors={namesInput ? ['#FFCF5D', '#50E267', '#00F4F5', '#7ca2d1', '#FF5368', '#FF983B'] : undefined}
+                textColors={['#3d4e64']}
+                radiusLineWidth={names.length > 1 ? 2 : 0}
+                radiusLineColor={namesInput ? '#3d4e64' : undefined}
                 outerBorderColor={'#3d4e64'}
                 outerBorderWidth={16}
                 onStopSpinning={handleClickStopSpinning}
+                textDistance={50}
               />
-              <Button disabled={isSpinning || names.length <= 1} onClick={handleSpinClick} className='wheel-spin-button'>
-                {!isSpinning && names.length > 1 ? 'SPIN' : ' '}
-              </Button>
             </div>
             <div className='wheel-result-container mb-2'>
               {displayedSpinResult && (
                 <Title type='secondary' level={3}>{displayedSpinResult}</Title>
               )}
             </div>
+            <Button size='large' type='primary' disabled={isSpinning || names.length <= 1} onClick={handleSpinClick} className='wheel-spin-button mb-2'>
+              SPIN
+            </Button>
           </Col>
           <Col xs={24} lg={12}>
             <TextArea
               value={namesInput}
               onChange={e => setNamesInput(e.target.value)}
               placeholder="Input names here"
-              autoSize={{ minRows: 2, maxRows: 6 }}
+              autoSize={{ minRows: 4, maxRows: 20 }}
               className='wheel-names-input'
             />
           </Col>

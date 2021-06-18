@@ -4,6 +4,7 @@ import head from './head.svg'
 import tail from './tail.svg'
 import wheel from './wheel.svg'
 import dice from './dice.svg'
+import cards from './cards.svg'
 
 export {
   numbers,
@@ -11,5 +12,6 @@ export {
   head,
   tail,
   wheel,
-  dice
+  dice,
+  cards,
 }

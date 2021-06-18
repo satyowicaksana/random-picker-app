@@ -6,8 +6,9 @@ import {
   Home,
   Numbers,
   Coin,
+  Dice,
   Wheel,
-  Dice
+  Cards
 } from 'views'
 import './App.less';
 
@@ -25,17 +26,21 @@ const App = () => (
               <Route path="/coin">
                 <Coin />
               </Route>
+              <Route path="/dice">
+                <Dice />
+              </Route>
               <Route path="/wheel">
                 <Wheel />
               </Route>
-              <Route path="/dice">
-                <Dice />
+              <Route path="/cards">
+                <Cards />
               </Route>
               <Route path="/">
                 <Home />
               {/*<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>*/}
               {/*<div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>*/}
               {/*<div>Icons made by <a href="" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>*/}
+              {/*<a href="https://www.freepik.com/free-photos-vectors/cards">Cards vector created by rawpixel.com - www.freepik.com</a>*/}
               </Route>
             </Switch>
           </div>

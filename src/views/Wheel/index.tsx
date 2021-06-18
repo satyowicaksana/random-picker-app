@@ -13,7 +13,7 @@ const { TextArea } = Input
 
 const WheelView = () => {
 
-  const [namesInput, setNamesInput] = useState('')
+  const [namesInput, setNamesInput] = useState('Alice\nBob\nCharlie\nDaniel')
   const [names, setNames] = useState<WheelData[]>([{option: ''}])
   const [isSpinning, setIsSpinning] = useState(false);
   const [spinResult, setSpinResult] = useState(0);

@@ -6,6 +6,7 @@ const Numbers = lazy(() => import('./Numbers'))
 const Coin = lazy(() => import('./Coin'))
 const Wheel = lazy(() => import('./Wheel'))
 const Dice = lazy(() => import('./Dice'))
+const Cards = lazy(() => import('./Cards'))
 
 export {
   Navbar,
@@ -13,5 +14,6 @@ export {
   Numbers,
   Coin,
   Wheel,
-  Dice
+  Dice,
+  Cards
 }

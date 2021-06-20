@@ -24,7 +24,6 @@ const Cards = () => {
 
   const handleClickDraw = () => {
     setDisableClickDraw(true)
-    console.log('26')
     if(undrawedCardIndexes.length > 0) {
       const randomIndex = randomizer.getRandomInteger(0, undrawedCardIndexes.length - 1)
       const randomUndrawedCardIndex = undrawedCardIndexes[randomIndex]
@@ -59,6 +58,13 @@ const Cards = () => {
     }
     setDisableClickDraw(false)
   }
+
+  const handleClickResetDeck = () => {
+    setCards(cardsData)
+    setTimeout(() => {
+      setDisplayedDrawedCardName('')
+    }, 500)
+  }
   
   return (
     <div className='cards-container centering-flex'>
@@ -82,8 +88,8 @@ const Cards = () => {
       <div className='cards-result-container mb-2'>
         {displayedDrawedCardName && <Title type='secondary' level={3}>{displayedDrawedCardName}</Title>}
       </div>
-      <Button size='large' type='primary' disabled={disableClickDraw} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
-      <Button size='large' disabled={disableClickDraw} onClick={handleClickDraw} className='cards-button'>Reset Deck</Button>
+      <Button size='large' type='primary' disabled={undrawedCardIndexes.length === 0} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
+      <Button size='large' disabled={undrawedCardIndexes.length === cardsData.length} onClick={handleClickResetDeck} className='cards-button'>Reset Deck</Button>
     </div>
   )
 }

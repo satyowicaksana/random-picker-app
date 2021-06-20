@@ -2,15 +2,62 @@
 
 .cards-cards-container {
   position: relative;
-  width: 100%;
+  width: calc(100px * 2 + 16px);
+  height: 150px;
 }
 .cards-card-container {
   position: absolute;
-  width: 100px;
+  &:not(.drawed) {
+    left: 0;
+  }
   &.drawed {
-    right: 0;
+    left: calc(100% - 100px)
   }
-  img {
-    width: 100px;
+  transition: all 0.2s linear;
+}
+.cards-card {
+  height: 150px;
+  width: 100px;
+  border-radius: 16px;
+  background-color: rgb(243,241,244);
+  border: solid 4px rgb(213,217,242);
+  border-left-color: rgb(243,241,244);
+  border-top-color: rgb(243,241,244);
+}
+.cards-card-number {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  &.black {
+    color: rgb(113,128,212) !important;
   }
+  &.red {
+    color: rgb(203,89,166) !important;
+  }
+}
+.cards-card-icon {
+  position: absolute;
+  width: 16px;
+  top: 40px;
+  left: 8px;
+}
+.cards-card-symbol {
+  position: absolute;
+  width: 60px;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.cards-card-illustration {
+  position: absolute;
+  width: 50px;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.cards-result-container {
+  height: 32px;
+}
+.cards-button {
+  width: 120px;
 }

@@ -45,7 +45,9 @@ const Coin = () => {
         <Title type='secondary' level={3}>{front.toUpperCase()}</Title>
       )}
       </div>
-      <Button onClick={handleClickFlip} type='primary' size='large'>Flip</Button>
+      <div className='coin-button-container'>
+        <Button onClick={handleClickFlip} type='primary' size='large'>Flip</Button>
+      </div>
     </div>
   )
 }

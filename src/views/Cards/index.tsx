@@ -88,8 +88,10 @@ const Cards = () => {
       <div className='cards-result-container mb-2'>
         {displayedDrawedCardName && <Title type='secondary' level={3}>{displayedDrawedCardName}</Title>}
       </div>
-      <Button size='large' type='primary' disabled={undrawedCardIndexes.length === 0} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
-      <Button size='large' disabled={undrawedCardIndexes.length === cardsData.length} onClick={handleClickResetDeck} className='cards-button'>Reset Deck</Button>
+      <div className='cards-button-container'>
+        <Button size='large' type='primary' disabled={undrawedCardIndexes.length === 0} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
+        <Button size='large' disabled={undrawedCardIndexes.length === cardsData.length} onClick={handleClickResetDeck} className='cards-button'>Reset Deck</Button>
+      </div>
     </div>
   )
 }

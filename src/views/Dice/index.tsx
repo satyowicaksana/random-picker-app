@@ -62,7 +62,9 @@ const Dice = () => {
         <Title type='secondary' level={3} className='mb-0'>{rollResult}</Title>
       )}
       </div>
-      <Button size='large' type='primary' onClick={handleClickRoll}>Roll</Button>
+      <div className='dice-button-container'>
+        <Button size='large' type='primary' onClick={handleClickRoll}>Roll</Button>
+      </div>
     </div>
   )
 }

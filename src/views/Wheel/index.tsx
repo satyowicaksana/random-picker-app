@@ -63,13 +63,16 @@ const WheelView = () => {
                 <Title type='secondary' level={3}>{displayedSpinResult}</Title>
               )}
             </div>
-            <Button size='large' type='primary' disabled={isSpinning || names.length <= 1} onClick={handleSpinClick} className='wheel-spin-button mb-2'>
-              SPIN
-            </Button>
+            <div className='wheel-button-container'>
+              <Button size='large' type='primary' disabled={isSpinning || names.length <= 1} onClick={handleSpinClick} className='wheel-spin-button mb-2'>
+                SPIN
+              </Button>
+            </div>
           </Col>
           <Col xs={24} lg={12}>
             <TextArea
               value={namesInput}
+              disabled={isSpinning}
               onChange={e => setNamesInput(e.target.value)}
               placeholder="Input names here"
               autoSize={{ minRows: 4, maxRows: 20 }}

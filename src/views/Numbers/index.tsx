@@ -1,11 +1,11 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
 import { Row, Col, InputNumber, Button, Typography, Form, notification, Modal, Slider, Checkbox } from 'antd'
-import { IoIosSettings } from 'react-icons/io'
 
 import { Navbar, BottomDrawer } from 'components'
 import { windowSizes } from 'consts'
 import { useWindowSize } from 'hooks'
 import './style.less'
+import { randomizer } from 'helpers'
 
 const { Title, Text } = Typography
 
@@ -14,7 +14,6 @@ const Numbers = () => {
   const { width } = useWindowSize()
 
   const [toggleCardZoom, setToggleCardZoom] = useState(false)
-  const [randomNumber, setRandomNumber] = useState<number | undefined>(undefined)
   const [results, setResults] = useState<number[]>([])
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -30,10 +29,6 @@ const Numbers = () => {
       })
     }
   }, [form])
-
-  const getRandomInteger = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
 
   const validateForm = (values: any) => {
     const {min, max} = values
@@ -56,7 +51,7 @@ const Numbers = () => {
       valid = false
     }
     if(!valid) {
-      setRandomNumber(undefined)
+      setResults([])
     }
     return valid
   }
@@ -64,10 +59,9 @@ const Numbers = () => {
   const handleFinish = (values: any) => {
     const {min, max} = values
     if(validateForm(values)) {
-      setRandomNumber(getRandomInteger(min, max))
       const newResults = []
       for(let i = 0; i < resultNumber; i++) {
-        newResults.push(getRandomInteger(min, max))
+        newResults.push(randomizer.getRandomInteger(min, max))
       }
       setResults(newResults)
       setToggleCardZoom(true)
@@ -111,22 +105,20 @@ const Numbers = () => {
     </>
   )
 
+  const renderGenerateButton = () => (
+    <Form.Item>
+      <Button type='primary' htmlType='submit' size='large'>
+        Get Random Number
+      </Button>
+    </Form.Item>
+  )
+
   return (<>
     <Navbar
-      topRightContent={
-        <div className='mobile'>
-          <Title
-            level={3}
-            className='mb-0'
-            onClick={() => setModalVisible(true)}
-          >
-            <IoIosSettings/>
-          </Title>
-        </div>
-      }
+      settingsContent={renderSettingsForm()}
     />
-    <div className='numbers-container p-3'>
-      <Form form={form} onFinish={handleFinish}>
+    <Form form={form} onFinish={handleFinish}>
+      <div className='content-container'>
         <Row gutter={24}>
           <Col xs={24} md={12}>
             <Row gutter={16} className='mb-2'>
@@ -155,11 +147,9 @@ const Numbers = () => {
                 </Form.Item>
               </Col>
             </Row>
-            <Form.Item className='desktop'>
-              <Button type='primary' htmlType='submit' size='large' className='mb-3'>
-                Get Random Number
-              </Button>
-            </Form.Item>
+            <div className='desktop mb-3'>
+              {renderGenerateButton()}
+            </div>
             <div className='numbers-settings-form-desktop desktop'>
               {renderSettingsForm()}
             </div>
@@ -186,22 +176,11 @@ const Numbers = () => {
             </Row>
           </Col>
         </Row>
-        <BottomDrawer>
-          <Form.Item>
-            <Button type='primary' htmlType='submit' size='large' className='mb-3'>
-              Get Random Number
-            </Button>
-          </Form.Item>
-        </BottomDrawer>
-      </Form>
-    </div>
-    <Modal
-      visible={modalVisible}
-      onCancel={() => setModalVisible(false)}
-      className='mobile'
-    >
-      {renderSettingsForm()}
-    </Modal>
+      </div>
+      <BottomDrawer>
+        {renderGenerateButton()}
+      </BottomDrawer>
+    </Form>
   </>)
 }
 

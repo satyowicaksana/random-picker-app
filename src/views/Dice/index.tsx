@@ -1,72 +1,93 @@
 import { useState } from 'react'
-import { Row, Col, Button, Typography } from 'antd'
+import { Row, Col, Button, Typography, Slider } from 'antd'
 
-import { head, tail } from 'assets'
+import { BottomDrawer, Navbar, Die } from 'components'
 import { randomizer } from 'helpers'
 import './style.less'
+import { useEffect } from 'react'
 
-const { Title } = Typography
+const { Text, Title } = Typography
 
 const Dice = () => {
-  const [rollResult, setRollResult] = useState<number | undefined>()
+  const [results, setResults] = useState<number[]>([1])
   const [toggleRoll, setToggleRoll] = useState(false)
+
+  //settings form
+  const [resultNumber, setResultNumber] = useState(1)
+
+  useEffect(() => {
+    const newResults = []
+    for(let i = 0; i < resultNumber; i++) {
+      newResults.push(1)
+    }
+    setResults(newResults)
+  }, [resultNumber])
 
   const handleAnimationEndDie = () => {
     setToggleRoll(false)
-    setRollResult(randomizer.getRandomInteger(1, 6))
+    const newResults = []
+    for(let i = 0; i < resultNumber; i++) {
+      newResults.push(randomizer.getRandomInteger(1, 6))
+    }
+    setResults(newResults)
   }
 
   const handleClickRoll = () => {
     if(!toggleRoll) setToggleRoll(true)
   }
 
-  return (
-    <div className='dice-container'>
-      <div onAnimationEnd={handleAnimationEndDie} className={`die ${toggleRoll ? 'roll' : ''} ${rollResult ? `show-${rollResult}` : ''} mb-1`}>
-        <div className="die-face face-1">
-          <div className='die-face-dot dot-center'/>
-        </div>
-        <div className="die-face face-2">
-          <div className='die-face-dot dot-top-right'/>
-          <div className='die-face-dot dot-bottom-left'/>
-        </div>
-        <div className="die-face face-3">
-          <div className='die-face-dot dot-top-right'/>
-          <div className='die-face-dot dot-center'/>
-          <div className='die-face-dot dot-bottom-left'/>
-        </div>
-        <div className="die-face face-4">
-          <div className='die-face-dot dot-top-left'/>
-          <div className='die-face-dot dot-top-right'/>
-          <div className='die-face-dot dot-bottom-left'/>
-          <div className='die-face-dot dot-bottom-right'/>
-        </div>
-        <div className="die-face face-5">
-          <div className='die-face-dot dot-top-left'/>
-          <div className='die-face-dot dot-top-right'/>
-          <div className='die-face-dot dot-center'/>
-          <div className='die-face-dot dot-bottom-left'/>
-          <div className='die-face-dot dot-bottom-right'/>
-        </div>
-        <div className="die-face face-6">
-          <div className='die-face-dot dot-top-center'/>
-          <div className='die-face-dot dot-top-left'/>
-          <div className='die-face-dot dot-top-right'/>
-          <div className='die-face-dot dot-bottom-center'/>
-          <div className='die-face-dot dot-bottom-left'/>
-          <div className='die-face-dot dot-bottom-right'/>
-        </div>
-      </div>
-      <div className='dice-result-container mb-2'>
-      {(rollResult && !toggleRoll) && (
-        <Title type='secondary' level={3} className='mb-0'>{rollResult}</Title>
-      )}
-      </div>
-      <div className='dice-button-container'>
-        <Button size='large' type='primary' onClick={handleClickRoll}>Roll</Button>
-      </div>
+  const renderRollButton = () => (
+    <Button size='large' type='primary' onClick={handleClickRoll} className='full-width'>Roll</Button>
+  )
+
+  const renderSettingsForm = () => (
+    <div>
+      <Text>Number of dice: {resultNumber}</Text>
+      <Row gutter={16} align='middle'>
+        <Col>
+          <Text>1</Text>
+        </Col>
+        <Col flex='auto'>
+          <Slider value={resultNumber} onChange={value => setResultNumber(value)} min={1} max={10}/>
+        </Col>
+        <Col>
+          <Text>10</Text>
+        </Col>
+      </Row>
     </div>
   )
+
+  return (<>
+    <Navbar
+      settingsContent={renderSettingsForm()}
+    />
+    <div >
+      <Row gutter={{xs: 0, sm: 0, md: 40}} wrap={false}>
+        <Col flex='400px' className='desktop'>
+          {renderRollButton()}
+          <div  className='mt-2'/>
+          {renderSettingsForm()}
+        </Col>
+        <Col flex='auto'>
+          <Row>
+            {results.map(result => (
+              <Col className='centering-flex' xs={resultNumber <= 1 ? 24 : 12} md={6}>
+                <Die handleAnimationEndDie={handleAnimationEndDie} toggleRoll={toggleRoll} rollResult={result}/>
+                <div className='dice-result-container mb-2'>
+                {(result && !toggleRoll) && (
+                  <Title type='secondary' level={3} className='mb-0'>{result}</Title>
+                )}
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Col>
+      </Row>
+    </div>
+    <BottomDrawer>
+      {renderRollButton()}
+    </BottomDrawer>
+  </>)
 }
 
 export default Dice;

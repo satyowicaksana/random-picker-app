@@ -5,6 +5,12 @@
   width: 100%;
   max-width: 1200px;
 }
+.content-container {
+  padding: 24px;
+  @media @sm, @xs {
+    padding-bottom: calc(24px + 88px);
+  }
+}
 .ant-btn {
   border-radius: 8px;
   font-weight: bold;
@@ -85,6 +91,9 @@
 .px-3 {
   padding-left: 24px;
   padding-right: 24px;
+}
+.mt-2 {
+  margin-top: 16px;
 }
 .mb-0 {
   margin-bottom: 0 !important;

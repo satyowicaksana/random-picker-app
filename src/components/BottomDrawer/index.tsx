@@ -16,11 +16,11 @@ type BottomDrawerProps = {
 const BottomDrawer = ({
   children
 }: BottomDrawerProps) => {
-  return (
+  return (<>
     <div className='bottom-drawer-container mobile p-3'>
       {children}
     </div>
-  )
+  </>)
 }
 
 export default BottomDrawer;

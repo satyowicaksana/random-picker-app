@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Row, Col, Button, Input, Typography } from 'antd'
-
-import { head, tail } from 'assets'
-import { randomizer } from 'helpers'
 import { Wheel } from 'react-custom-roulette'
+
+import { randomizer } from 'helpers'
 import './style.less'
 import { WheelData } from 'react-custom-roulette/dist/components/Wheel/types'
 import { useEffect } from 'react'
+import { Navbar, BottomDrawer } from 'components'
 
 const { Title } = Typography
 const { TextArea } = Input
@@ -38,8 +38,15 @@ const WheelView = () => {
     setDisplayedSpinResult(names[spinResult].option)
   }
 
-  return (
-    <div className='wheel-container centering-flex'>
+  const renderSpinButton = () => (
+    <Button size='large' type='primary' disabled={isSpinning || names.length <= 1} onClick={handleSpinClick} className='wheel-spin-button full-width mb-2'>
+      SPIN
+    </Button>
+  )
+
+  return (<>
+    <Navbar/>
+    <div className='wheel-container centering-flex p-3'>
       <div className='wheel-content-container'>
         <Row gutter={{xs: 0, lg: 80}}>
           <Col xs={24} lg={12} className='centering-flex'>
@@ -63,10 +70,8 @@ const WheelView = () => {
                 <Title type='secondary' level={3}>{displayedSpinResult}</Title>
               )}
             </div>
-            <div className='wheel-button-container'>
-              <Button size='large' type='primary' disabled={isSpinning || names.length <= 1} onClick={handleSpinClick} className='wheel-spin-button mb-2'>
-                SPIN
-              </Button>
+            <div className='wheel-button-container desktop'>
+              {renderSpinButton()}
             </div>
           </Col>
           <Col xs={24} lg={12}>
@@ -82,7 +87,10 @@ const WheelView = () => {
         </Row>
       </div>
     </div>
-  )
+    <BottomDrawer>
+      {renderSpinButton()}
+    </BottomDrawer>
+  </>)
 }
 
 export default WheelView;

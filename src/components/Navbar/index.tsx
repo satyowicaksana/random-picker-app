@@ -26,7 +26,7 @@ const Navbar = ({
   }, [location])
 
   return (
-    <div className='navbar-container px-3 mb-1'>
+    <div className='navbar-container px-3'>
       <Row align='middle' justify='space-between' className='full-width'>
         <Col>
           <Row gutter={16} align='middle'>

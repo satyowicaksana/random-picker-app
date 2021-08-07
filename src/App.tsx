@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   Home,
   Numbers,
+  Lists,
+  CreateList,
   Coin,
   Dice,
   Wheel,
@@ -19,6 +21,12 @@ const App = () => (
           <Switch>
             <Route path="/numbers">
               <Numbers />
+            </Route>
+            <Route path="/lists">
+              <Lists />
+            </Route>
+            <Route path="/lists/create">
+              <CreateList />
             </Route>
             <Route path="/coin">
               <Coin />

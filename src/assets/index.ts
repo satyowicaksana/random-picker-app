@@ -1,4 +1,5 @@
 import numbers from './numbers.svg'
+import lists from './lists.svg'
 import coin from './coin.svg'
 import head from './head.svg'
 import tail from './tail.svg'
@@ -20,6 +21,7 @@ import jokerBlack from './joker_black.svg'
 
 export {
   numbers,
+  lists,
   coin,
   head,
   tail,

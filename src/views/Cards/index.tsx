@@ -7,6 +7,7 @@ import { cards, spades } from 'assets'
 import { randomizer } from 'helpers'
 import './style.less'
 import { Card, cardsData } from './const'
+import { Navbar } from 'components'
 
 const { Title } = Typography
 
@@ -66,7 +67,8 @@ const Cards = () => {
     }, 500)
   }
   
-  return (
+  return (<>
+    <Navbar/>
     <div className='cards-container centering-flex'>
       <div className='cards-cards-container mb-2'>
         {cards.map((card, i) => (
@@ -93,7 +95,7 @@ const Cards = () => {
         <Button size='large' disabled={undrawedCardIndexes.length === cardsData.length} onClick={handleClickResetDeck} className='cards-button'>Reset Deck</Button>
       </div>
     </div>
-  )
+  </>)
 }
 
 export default Cards;

@@ -1,6 +1,7 @@
 
 import {
   numbers,
+  lists,
   coin,
   dice,
   wheel,
@@ -12,6 +13,11 @@ export const menuItems = [
     value: 'numbers',
     label: 'Numbers',
     imageUrl: numbers,
+  },
+  {
+    value: 'lists',
+    label: 'Lists',
+    imageUrl: lists,
   },
   {
     value: 'coin',

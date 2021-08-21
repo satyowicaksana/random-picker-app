@@ -1,6 +1,7 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
 import { Row, Col, InputNumber, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
 import { AiOutlineSearch } from 'react-icons/ai'
+import { useLiveQuery } from 'dexie-react-hooks'
 
 import { Navbar, BottomDrawer } from 'components'
 import { windowSizes } from 'consts'
@@ -8,6 +9,8 @@ import { useWindowSize } from 'hooks'
 import './style.less'
 import { randomizer } from 'helpers'
 import { useHistory } from 'react-router-dom'
+import { db } from 'storage'
+import { ListType } from 'interfaces/list'
 
 const { Title, Text } = Typography
 
@@ -15,6 +18,8 @@ const Lists = () => {
   const [form] = Form.useForm()
   const { width } = useWindowSize()
   const history = useHistory()
+
+  const lists = useLiveQuery(() => db.lists.toArray());
 
   const [toggleCardZoom, setToggleCardZoom] = useState(false)
   const [results, setResults] = useState<number[]>([])
@@ -135,6 +140,9 @@ const Lists = () => {
           </Col>
         </Row>
       </Form>
+      {lists?.map(list => (
+        <p>{list.name}</p>
+      ))}
     </div>
   </>)
 }

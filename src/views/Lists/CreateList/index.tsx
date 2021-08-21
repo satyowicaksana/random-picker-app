@@ -1,11 +1,16 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, InputNumber, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
+import { Row, Col, List, Avatar, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
+import { MdModeEdit } from 'react-icons/md';
+import { AiFillDelete } from 'react-icons/ai';
 
 import { Navbar, BottomDrawer } from 'components'
 import { windowSizes } from 'consts'
 import { useWindowSize } from 'hooks'
 import './style.less'
 import { randomizer } from 'helpers'
+import { db } from 'storage';
+import { ListType } from 'interfaces/list';
+import { useHistory } from 'react-router-dom';
 
 const { Title, Text } = Typography
 const { Search } = Input
@@ -13,74 +18,13 @@ const { Search } = Input
 const Lists = () => {
   const [form] = Form.useForm()
   const { width } = useWindowSize()
+  const history = useHistory()
 
-  const [toggleCardZoom, setToggleCardZoom] = useState(false)
-  const [results, setResults] = useState<number[]>([])
-  const [modalVisible, setModalVisible] = useState(false)
+  const [items, setItems] = useState<string[]>([])
 
   //settings form
   const [resultNumber, setResultNumber] = useState(1)
   const [hasRepetition, setHasRepetition] = useState(true)
-
-  useEffect(() => {
-    if(form) {
-      form.setFieldsValue({
-        min: 1,
-        max: 100
-      })
-    }
-  }, [form])
-
-  const validateForm = (values: any) => {
-    const {min, max} = values
-    let valid = true
-    if(!min || !max) {
-      notification.error({
-        message: 'Please input the number range',
-        placement: 'bottomRight',
-        duration: 2,
-        key: 'number-range-error',
-      })
-      valid = false
-    } else if(min > max) {
-      notification.error({
-        message: 'Min cannot be larger than max',
-        placement: 'bottomRight',
-        duration: 2,
-        key: 'number-larger-error',
-      })
-      valid = false
-    }
-    if(!valid) {
-      setResults([])
-    }
-    return valid
-  }
-
-  const handleFinish = (values: any) => {
-    const {min, max} = values
-    if(validateForm(values)) {
-      const newResults = []
-      for(let i = 0; i < resultNumber; i++) {
-        newResults.push(randomizer.getRandomInteger(min, max))
-      }
-      setResults(newResults)
-      setToggleCardZoom(true)
-    }
-  }
-
-  const handleInputNumberKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
-    if(e.key === 'e' || e.key === '.' || e.key === ',') {
-      e.preventDefault()
-    } 
-  }
-
-  const getResultFontSize = (resultLength: number) => {
-    if(resultLength <= 1) return 72
-    if(resultLength >= 10 && width >= windowSizes.md.min) return 16
-    if(resultLength >= 5 && width >= windowSizes.md.min) return 20
-    return 32
-  }
 
   const renderSettingsForm = () => (
     <>
@@ -114,25 +58,77 @@ const Lists = () => {
     </Form.Item>
   )
 
+  const handleClickAddItem = () => {
+    if(form.getFieldValue('newItem')) {
+      setItems([...items, form.getFieldValue('newItem')])
+    }
+  }
+
+  const handleClickSaveList = async () => {
+    try {
+      const newList: ListType = {
+        name: form.getFieldValue('newItem'),
+        items: items,
+      }
+      await db.lists.put(newList)
+      history.push('/lists')
+    } catch (err) {
+      alert('error handleClickSaveList')
+    }
+  }
+
   return (<>
     <Navbar
       settingsContent={renderSettingsForm()}
     />
     <div className='content-container'>
-      <Form form={form} onFinish={handleFinish}>
-        <Row justify='space-between'>
-          <Col span={6}>
-            <Form.Item className='mb-2'>
-              <Search size='large' placeholder='Search List'/>
-            </Form.Item>
-          </Col>
-          <Col span={6}>
-            <Form.Item className='mb-2'>
-              <Button size='large' type='primary'>+ New List</Button>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+      <div className='mb-4'>
+        <Form form={form}>
+          <Form.Item name='gas'>
+            <Row gutter={16} justify='space-between'>
+              <Col>
+                <Form.Item name='listName'>
+                  <Input size='large' placeholder='List Name' className='mb-2'/>
+                </Form.Item>
+              </Col>
+              <Form.Item shouldUpdate>
+                {() => (
+                  <Button onClick={handleClickSaveList} disabled={!form.getFieldValue('listName')} size='large' type='primary'>Save List</Button>
+                )}
+              </Form.Item>
+            </Row>
+          </Form.Item>
+          <Row gutter={16}>
+            <Col>
+              <Form.Item name='newItem'>
+                <Input onPressEnter={handleClickAddItem} size='large' placeholder='New Item'/>
+              </Form.Item>
+            </Col>
+            <Col>
+              <Form.Item shouldUpdate>
+                {() => (
+                <Button disabled={!form.getFieldValue('newItem')} size='large' type='primary' onClick={handleClickAddItem}>+ Add</Button>
+                )}
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+      <div>
+        <List
+          itemLayout="horizontal"
+          dataSource={items}
+          renderItem={item => (
+            <List.Item
+              actions={[<a><MdModeEdit/></a>, <a key="list-loadmore-more"><AiFillDelete/></a>]}
+            >
+              <List.Item.Meta
+                title={item}
+              />
+            </List.Item>
+          )}
+        />
+      </div>
     </div>
   </>)
 }

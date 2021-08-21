@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import {
@@ -22,11 +22,11 @@ const App = () => (
             <Route path="/numbers">
               <Numbers />
             </Route>
-            <Route path="/lists">
-              <Lists />
-            </Route>
             <Route path="/lists/create">
               <CreateList />
+            </Route>
+            <Route path="/lists">
+              <Lists />
             </Route>
             <Route path="/coin">
               <Coin />
@@ -53,6 +53,6 @@ const App = () => (
       </div>
     </Suspense>
   </Router>
-);
+)
 
 export default App;

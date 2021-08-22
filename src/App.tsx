@@ -6,6 +6,7 @@ import {
   Numbers,
   Lists,
   CreateList,
+  List,
   Coin,
   Dice,
   Wheel,
@@ -24,6 +25,9 @@ const App = () => (
             </Route>
             <Route path="/lists/create">
               <CreateList />
+            </Route>
+            <Route path="/lists/:id">
+              <List />
             </Route>
             <Route path="/lists">
               <Lists />

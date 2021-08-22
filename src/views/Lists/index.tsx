@@ -122,6 +122,10 @@ const Lists = () => {
     </Form.Item>
   )
 
+  const handleClickList = (list: ListType) => {
+    history.push(`/lists/${list.id}`)
+  }
+
   return (<>
     <Navbar
       settingsContent={renderSettingsForm()}
@@ -144,6 +148,7 @@ const Lists = () => {
           renderItem={list => (
             <List.Item
               actions={[<AiOutlineRight/>]}
+              onClick={() => handleClickList(list)}
             >
               <List.Item.Meta
                 title={<Text strong>{list.name}</Text>}

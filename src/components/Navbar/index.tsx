@@ -9,10 +9,12 @@ import './style.less';
 const { Text, Title } = Typography
 
 type NavbarProps = {
+  title?: string
   settingsContent?: ReactNode
 }
 
 const Navbar = ({
+  title,
   settingsContent
 }: NavbarProps) => {
   const history = useHistory()
@@ -38,7 +40,7 @@ const Navbar = ({
               </Col>
             )}
             <Col>
-              <Title level={3} className='mb-0'>{titlesMap[location.pathname]}</Title>
+              <Title level={3} className='mb-0'>{title || titlesMap[location.pathname]}</Title>
             </Col>
           </Row>
         </Col>

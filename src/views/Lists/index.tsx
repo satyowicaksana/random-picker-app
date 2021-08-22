@@ -1,6 +1,7 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, InputNumber, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
-import { AiOutlineSearch } from 'react-icons/ai'
+import { Row, Col, List, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
+import { AiOutlineSearch, AiOutlineRight } from 'react-icons/ai'
+import { FaPlus } from 'react-icons/fa'
 import { useLiveQuery } from 'dexie-react-hooks'
 
 import { Navbar, BottomDrawer } from 'components'
@@ -127,22 +128,32 @@ const Lists = () => {
     />
     <div className='content-container'>
       <Form form={form} onFinish={handleFinish}>
-        <Row justify='space-between'>
+        <Row className='mb-4'>
           <Col span={6}>
-            <Form.Item className='mb-2'>
+            <Form.Item>
               <Input size='large' placeholder='Search List' suffix={<AiOutlineSearch/>}/>
             </Form.Item>
           </Col>
-          <Col span={6}>
-            <Form.Item className='mb-2'>
-              <Button onClick={() => history.push('/lists/create')} size='large' type='primary'>+ New List</Button>
-            </Form.Item>
-          </Col>
         </Row>
+        <Button onClick={() => history.push('/lists/create')} size='large' type='primary' className='button-floating'>
+          <FaPlus/>
+        </Button>
+        <List
+          itemLayout="horizontal"
+          dataSource={lists}
+          renderItem={list => (
+            <List.Item
+              actions={[<AiOutlineRight/>]}
+            >
+              <List.Item.Meta
+                title={<Text strong>{list.name}</Text>}
+                description={`${list.items.length} items`}
+              />
+            </List.Item>
+          )}
+          className='list-selectable'
+        />
       </Form>
-      {lists?.map(list => (
-        <p>{list.name}</p>
-      ))}
     </div>
   </>)
 }

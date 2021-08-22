@@ -1,5 +1,5 @@
 export interface ListType {
-  id?: string
+  id?: number
   name: string
   items: string[]
 }

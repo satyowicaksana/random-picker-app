@@ -1,5 +1,5 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, List, Avatar, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
+import { Row, Col, List, Avatar, Modal, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
 import { MdModeEdit } from 'react-icons/md';
 import { AiFillDelete } from 'react-icons/ai';
 
@@ -11,6 +11,7 @@ import { randomizer } from 'helpers'
 import { db } from 'storage';
 import { ListType } from 'interfaces/list';
 import { useHistory } from 'react-router-dom';
+import { formFields } from './consts';
 
 const { Title, Text } = Typography
 const { Search } = Input
@@ -21,6 +22,7 @@ const Lists = () => {
   const history = useHistory()
 
   const [items, setItems] = useState<string[]>([])
+  const [editedItemIndex, setEditedItemIndex] = useState(-1)
 
   //settings form
   const [resultNumber, setResultNumber] = useState(1)
@@ -59,15 +61,16 @@ const Lists = () => {
   )
 
   const handleClickAddItem = () => {
-    if(form.getFieldValue('newItem')) {
-      setItems([...items, form.getFieldValue('newItem')])
+    if(form.getFieldValue(formFields.itemName)) {
+      setItems([...items, form.getFieldValue(formFields.itemName)])
     }
+    form.resetFields([formFields.itemName])
   }
 
   const handleClickSaveList = async () => {
     try {
       const newList: ListType = {
-        name: form.getFieldValue('newItem'),
+        name: form.getFieldValue(formFields.listName),
         items: items,
       }
       await db.lists.put(newList)
@@ -77,58 +80,112 @@ const Lists = () => {
     }
   }
 
+  const handleClickShowEditItemModal = (itemIndex: number) => {
+    setEditedItemIndex(itemIndex)
+    form.setFieldsValue({
+      [formFields.editedItemName]: items[itemIndex]
+    })
+  }
+
+  const handleClickEditItem = () => {
+    const newItems = [...items]
+    newItems[editedItemIndex] = form.getFieldValue(formFields.editedItemName)
+    setItems(newItems)
+    setEditedItemIndex(-1)
+  }
+
+  const handleClickDeleteItem = (itemIndex: number) => {
+    setItems([...items].filter((_, i) => i !== itemIndex))
+  }
+
   return (<>
     <Navbar
       settingsContent={renderSettingsForm()}
     />
     <div className='content-container'>
-      <div className='mb-4'>
-        <Form form={form}>
-          <Form.Item name='gas'>
-            <Row gutter={16} justify='space-between'>
+      <Form form={form}>
+        <div className='mb-4'>
+            <Form.Item name='gas'>
+              <Row gutter={16} justify='space-between'>
+                <Col>
+                  <Form.Item name={formFields.listName}>
+                    <Input size='large' placeholder='List Name' className='mb-2'/>
+                  </Form.Item>
+                </Col>
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <Button
+                      onClick={handleClickSaveList}
+                      disabled={!form.getFieldValue(formFields.listName) || !items.length}
+                      size='large'
+                      type='primary'
+                    >
+                      Save List
+                    </Button>
+                  )}
+                </Form.Item>
+              </Row>
+            </Form.Item>
+            <Row gutter={16}>
               <Col>
-                <Form.Item name='listName'>
-                  <Input size='large' placeholder='List Name' className='mb-2'/>
+                <Form.Item name={formFields.itemName}>
+                  <Input onPressEnter={handleClickAddItem} size='large' placeholder='New Item'/>
                 </Form.Item>
               </Col>
-              <Form.Item shouldUpdate>
-                {() => (
-                  <Button onClick={handleClickSaveList} disabled={!form.getFieldValue('listName')} size='large' type='primary'>Save List</Button>
-                )}
-              </Form.Item>
+              <Col>
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <Button disabled={!form.getFieldValue(formFields.itemName)} size='large' type='primary' onClick={handleClickAddItem}>+ Add</Button>
+                  )}
+                </Form.Item>
+              </Col>
             </Row>
+        </div>
+        <div>
+          <List
+            itemLayout="horizontal"
+            dataSource={items}
+            renderItem={(item, i) => (
+              <List.Item
+                actions={[
+                  <a onClick={() => handleClickShowEditItemModal(i)}><MdModeEdit/></a>,
+                  <a onClick={() => handleClickDeleteItem(i)}><AiFillDelete/></a>
+                ]}
+              >
+                <List.Item.Meta
+                  title={item}
+                />
+              </List.Item>
+            )}
+            className='selectable'
+          />
+        </div>
+        <Modal
+          visible={editedItemIndex > -1}
+          onCancel={() => setEditedItemIndex(-1)}
+        >
+          <Title level={4}>Edit Item</Title>
+          <Form.Item name={formFields.editedItemName}>
+            <Input onPressEnter={handleClickEditItem} size='large' placeholder='Item Name' className='mb-2'/>
           </Form.Item>
-          <Row gutter={16}>
-            <Col>
-              <Form.Item name='newItem'>
-                <Input onPressEnter={handleClickAddItem} size='large' placeholder='New Item'/>
-              </Form.Item>
-            </Col>
+          <Row justify='end'>
             <Col>
               <Form.Item shouldUpdate>
                 {() => (
-                <Button disabled={!form.getFieldValue('newItem')} size='large' type='primary' onClick={handleClickAddItem}>+ Add</Button>
+                  <Button
+                    onClick={handleClickEditItem}
+                    disabled={!form.getFieldValue(formFields.editedItemName)}
+                    size='large'
+                    type='primary'
+                  >
+                    Edit
+                  </Button>
                 )}
               </Form.Item>
             </Col>
           </Row>
-        </Form>
-      </div>
-      <div>
-        <List
-          itemLayout="horizontal"
-          dataSource={items}
-          renderItem={item => (
-            <List.Item
-              actions={[<a><MdModeEdit/></a>, <a key="list-loadmore-more"><AiFillDelete/></a>]}
-            >
-              <List.Item.Meta
-                title={item}
-              />
-            </List.Item>
-          )}
-        />
-      </div>
+        </Modal>
+      </Form>
     </div>
   </>)
 }

@@ -4,12 +4,12 @@ import { Row, Col, InputNumber, Button, Typography, Form, notification, Modal, S
 import { Navbar, BottomDrawer } from 'components'
 import { windowSizes } from 'consts'
 import { useWindowSize } from 'hooks'
-import './style.less'
 import { randomizer } from 'helpers'
+import './style.less'
 
 const { Title, Text } = Typography
 
-const Numbers = () => {
+const Element = () => {
   const [form] = Form.useForm()
   const { width } = useWindowSize()
 
@@ -146,4 +146,4 @@ const Numbers = () => {
   </>)
 }
 
-export default Numbers;
+export default Element;

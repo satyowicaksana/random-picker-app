@@ -1,6 +1,6 @@
-export const menuItemKey = {
+export const tabKey = {
   element: 'element',
-  shuffle: 'suffle',
+  shuffle: 'shuffle',
   groups: 'groups',
   edit: 'edit'
 }

@@ -13,7 +13,8 @@ import {
   Element
 } from './views'
 import './style.less'
-import { menuItemKey } from './consts';
+import { tabKey } from './consts';
+import Shuffle from './views/Shuffle';
 
 const { Title, Text } = Typography
 const { Search } = Input
@@ -27,7 +28,7 @@ const Lists = () => {
   const [form] = Form.useForm()
   const { width } = useWindowSize()
   const history = useHistory()
-  const { id, tab } = useParams<ParamTypes>()
+  const { id, tab = tabKey.element } = useParams<ParamTypes>()
 
   const [list, setList] = useState<ListType | undefined>(undefined)
   const [notFound, setNotFound] = useState(false)
@@ -56,29 +57,32 @@ const Lists = () => {
       <p>loading</p>
     )
 
-    return (
-      <Element/>
-    )
+    switch (tab) {
+      case tabKey.shuffle:
+        return <Shuffle/>
+      default:
+        return <Element/>
+    }
   }
 
   const menuItems = [
     {
-      key: menuItemKey.element,
+      key: tabKey.element,
       icon: <MdList />,
       label: 'Element'
     },
     {
-      key: menuItemKey.shuffle,
+      key: tabKey.shuffle,
       icon: <MdShuffle />,
       label: 'Shuffle'
     },
     {
-      key: menuItemKey.groups,
+      key: tabKey.groups,
       icon: <MdGroup />,
       label: 'Group'
     },
     {
-      key: menuItemKey.edit,
+      key: tabKey.edit,
       icon: <MdEdit />,
       label: 'Edit'
     }
@@ -90,9 +94,9 @@ const Lists = () => {
     <div className='content-container'>
       <Row gutter={40}>
         <Col>
-          <Menu inlineCollapsed>
+          <Menu selectedKeys={[tab]} inlineCollapsed>
             {menuItems.map(menu => (
-              <Menu.Item key={menu.key} icon={menu.icon}>
+              <Menu.Item key={menu.key} icon={menu.icon} onClick={() => history.push(`/lists/${id}/${menu.key}`)}>
                 {menu.label}
               </Menu.Item>
             ))}

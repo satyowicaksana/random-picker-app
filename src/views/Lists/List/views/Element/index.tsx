@@ -57,15 +57,12 @@ const Numbers = () => {
   }
 
   const handleFinish = (values: any) => {
-    const {min, max} = values
-    if(validateForm(values)) {
       const newResults = []
       for(let i = 0; i < resultNumber; i++) {
-        newResults.push(randomizer.getRandomInteger(min, max))
+        newResults.push(randomizer.getRandomInteger(0, 10))
       }
       setResults(newResults)
       setToggleCardZoom(true)
-    }
   }
 
   const handleInputNumberKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
@@ -108,51 +105,20 @@ const Numbers = () => {
   const renderGenerateButton = () => (
     <Form.Item>
       <Button type='primary' htmlType='submit' size='large' className='full-width'>
-        Get Random Number
+        Get Random Element
       </Button>
     </Form.Item>
   )
 
   return (<>
-    <Navbar
-      settingsContent={renderSettingsForm()}
-    />
     <Form form={form} onFinish={handleFinish}>
-      <div className='content-container'>
+      <div>
         <Row gutter={24}>
           <Col xs={24} md={12}>
-            <Row gutter={16} className='mb-2'>
-              <Col span={12}>
-                <Form.Item name='min'>
-                  <InputNumber
-                    size='large'
-                    placeholder='Min'
-                    maxLength={13}
-                    onKeyDown={handleInputNumberKeyDown}
-                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={value => `${value}`.replace(/,*/g, '')}
-                    className='full-width'
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item name='max'>
-                  <InputNumber
-                    size='large'
-                    placeholder='Max'
-                    maxLength={13}
-                    onKeyDown={handleInputNumberKeyDown}
-                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={value => `${value}`.replace(/,*/g, '')}
-                    className='full-width'
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
             <div className='desktop mb-3'>
               {renderGenerateButton()}
             </div>
-            <div className='numbers-settings-form-desktop desktop'>
+            <div className='element-settings-form-desktop desktop'>
               {renderSettingsForm()}
             </div>
           </Col>
@@ -162,7 +128,7 @@ const Numbers = () => {
                 <Col
                   xs={results.length <= 1 ? 24 : 12}
                   lg={results.length <= 1 ? 24 : results.length <= 4 ? 12 : results.length <= 9 ? 8 : 6}>
-                  <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card ${toggleCardZoom ? 'zoom' : ''}`}>
+                  <div onAnimationEnd={() => setToggleCardZoom(false)} className={`element-card card ${toggleCardZoom ? 'zoom' : ''}`}>
                   <div>
                     <Title
                       style={{

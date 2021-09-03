@@ -7,11 +7,11 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { Navbar, BottomDrawer } from 'components'
 import { windowSizes } from 'consts'
 import { useWindowSize } from 'hooks'
-import './style.less'
 import { randomizer } from 'helpers'
 import { useHistory } from 'react-router-dom'
 import { db } from 'storage'
 import { ListType } from 'interfaces/list'
+import './style.less'
 
 const { Title, Text } = Typography
 

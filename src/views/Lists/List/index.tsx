@@ -1,37 +1,40 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, List, Avatar, Modal, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
-import { MdModeEdit } from 'react-icons/md';
-import { AiFillDelete } from 'react-icons/ai';
+import { Row, Col, List, Avatar, Modal, Button, Typography, Form, notification, Input, Menu, Checkbox } from 'antd'
+import { MdEdit, MdGroup, MdShuffle, MdList } from 'react-icons/md';
 
 import { Navbar, BottomDrawer } from 'components'
 import { windowSizes } from 'consts'
 import { useWindowSize } from 'hooks'
-import './style.less'
 import { randomizer } from 'helpers'
 import { db } from 'storage';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { useHistory, useParams } from 'react-router-dom';
 import { ListType } from 'interfaces/list';
+import {
+  Element
+} from './views'
+import './style.less'
+import { menuItemKey } from './consts';
 
 const { Title, Text } = Typography
 const { Search } = Input
 
 type ParamTypes = {
   id: string
+  tab?: string
 }
 
 const Lists = () => {
   const [form] = Form.useForm()
   const { width } = useWindowSize()
   const history = useHistory()
-  const params = useParams<ParamTypes>()
+  const { id, tab } = useParams<ParamTypes>()
 
   const [list, setList] = useState<ListType | undefined>(undefined)
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     const getList = async () => {
-      const list = await db.lists.get(Number(params.id))
+      const list = await db.lists.get(Number(id))
       if(!list) {
         setNotFound(true)
       } else {
@@ -40,6 +43,9 @@ const Lists = () => {
     }
     getList()
   }, [])
+
+  useEffect(() => {
+  }, [tab])
 
   const renderContent = () => {
     if (notFound) return (
@@ -51,17 +57,51 @@ const Lists = () => {
     )
 
     return (
-      <div>
-        {JSON.stringify(list.id)}
-      </div>
+      <Element/>
     )
   }
+
+  const menuItems = [
+    {
+      key: menuItemKey.element,
+      icon: <MdList />,
+      label: 'Element'
+    },
+    {
+      key: menuItemKey.shuffle,
+      icon: <MdShuffle />,
+      label: 'Shuffle'
+    },
+    {
+      key: menuItemKey.groups,
+      icon: <MdGroup />,
+      label: 'Group'
+    },
+    {
+      key: menuItemKey.edit,
+      icon: <MdEdit />,
+      label: 'Edit'
+    }
+  ]
 
 
   return (<>
     <Navbar title={list?.name}/>
     <div className='content-container'>
-      {renderContent()}
+      <Row gutter={40}>
+        <Col>
+          <Menu inlineCollapsed>
+            {menuItems.map(menu => (
+              <Menu.Item key={menu.key} icon={menu.icon}>
+                {menu.label}
+              </Menu.Item>
+            ))}
+          </Menu>
+        </Col>
+        <Col flex='auto'>
+          {renderContent()}
+        </Col>
+      </Row>
     </div>
   </>)
 }

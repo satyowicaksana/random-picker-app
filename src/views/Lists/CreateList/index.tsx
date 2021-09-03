@@ -18,7 +18,6 @@ const { Search } = Input
 
 const Lists = () => {
   const [form] = Form.useForm()
-  const { width } = useWindowSize()
   const history = useHistory()
 
   const [items, setItems] = useState<string[]>([])

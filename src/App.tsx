@@ -26,6 +26,9 @@ const App = () => (
             <Route path="/lists/create">
               <CreateList />
             </Route>
+            <Route path="/lists/:id/:tab">
+              <List />
+            </Route>
             <Route path="/lists/:id">
               <List />
             </Route>

@@ -57,18 +57,12 @@ const Numbers = () => {
   }
 
   const handleFinish = (values: any) => {
-      const newResults = []
-      for(let i = 0; i < resultNumber; i++) {
-        newResults.push(randomizer.getRandomInteger(0, 10))
-      }
-      setResults(newResults)
-      setToggleCardZoom(true)
-  }
-
-  const handleInputNumberKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
-    if(e.key === 'e' || e.key === '.' || e.key === ',') {
-      e.preventDefault()
-    } 
+    const newResults = []
+    for(let i = 0; i < resultNumber; i++) {
+      newResults.push(randomizer.getRandomInteger(0, 10))
+    }
+    setResults(newResults)
+    setToggleCardZoom(true)
   }
 
   const getResultFontSize = (resultLength: number) => {

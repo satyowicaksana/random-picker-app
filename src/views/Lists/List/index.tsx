@@ -10,11 +10,10 @@ import { db } from 'storage';
 import { useHistory, useParams } from 'react-router-dom';
 import { ListType } from 'interfaces/list';
 import {
-  Element
+  Element, Shuffle, Groups
 } from './views'
 import './style.less'
 import { tabKey } from './consts';
-import Shuffle from './views/Shuffle';
 
 const { Title, Text } = Typography
 const { Search } = Input
@@ -60,6 +59,8 @@ const Lists = () => {
     switch (tab) {
       case tabKey.shuffle:
         return <Shuffle/>
+      case tabKey.groups:
+        return <Groups/>
       default:
         return <Element/>
     }

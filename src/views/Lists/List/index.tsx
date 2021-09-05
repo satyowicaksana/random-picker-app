@@ -10,24 +10,20 @@ import { db } from 'storage';
 import { useHistory, useParams } from 'react-router-dom';
 import { ListType } from 'interfaces/list';
 import {
-  Element, Shuffle, Groups
+  Element, Shuffle, Groups, Edit
 } from './views'
 import './style.less'
 import { tabKey } from './consts';
+import { ListsParamTypes } from '../consts';
 
 const { Title, Text } = Typography
 const { Search } = Input
-
-type ParamTypes = {
-  id: string
-  tab?: string
-}
 
 const Lists = () => {
   const [form] = Form.useForm()
   const { width } = useWindowSize()
   const history = useHistory()
-  const { id, tab = tabKey.element } = useParams<ParamTypes>()
+  const { id, tab = tabKey.element } = useParams<ListsParamTypes>()
 
   const [list, setList] = useState<ListType | undefined>(undefined)
   const [notFound, setNotFound] = useState(false)
@@ -61,6 +57,8 @@ const Lists = () => {
         return <Shuffle/>
       case tabKey.groups:
         return <Groups/>
+      case tabKey.edit:
+        return <Edit/>
       default:
         return <Element/>
     }

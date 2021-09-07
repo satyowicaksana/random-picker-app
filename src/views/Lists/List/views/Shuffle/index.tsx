@@ -5,30 +5,36 @@ import { Navbar, BottomDrawer } from 'components'
 import { windowSizes } from 'consts'
 import { useWindowSize } from 'hooks'
 import { randomizer } from 'helpers'
-import './style.less'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from 'storage'
 import { AiOutlineRight } from 'react-icons/ai'
+import { useParams } from 'react-router-dom'
+import { ListsParamTypes } from 'views/Lists/consts'
+import './style.less'
 
 const { Title, Text } = Typography
 
 const Shuffle = () => {
-  const lists = useLiveQuery(() => db.lists.toArray())
+  const { id } = useParams<ListsParamTypes>()
 
-  const [shuffledLists, setShuffledLists] = useState(lists)
+  const list = useLiveQuery(() => db.lists.get(Number(id)))
+
+  const [shuffledItems, setShuffledItems] = useState<string[]>([])
   const [toggleZoom, setToggleZoom] = useState(false)
 
   const handleClickShuffle = () => {
-    if(lists) {
-      const newLists = randomizer.shuffleArray([...lists])
-      setShuffledLists(newLists)
+    if(list) {
+      const newItems = randomizer.shuffleArray([...list.items])
+      setShuffledItems(newItems)
     }
     setToggleZoom(true)
   }
 
   useEffect(() => {
-    setShuffledLists(lists)
-  }, [lists])
+    if(list) {
+      setShuffledItems([...list.items])
+    }
+  }, [list])
 
   return (<>
     <div>
@@ -43,12 +49,11 @@ const Shuffle = () => {
       <div onAnimationEnd={() => setToggleZoom(false)} className={`shuffle-lists-container ${toggleZoom ? 'zoom' : ''}`}>
         <List
           itemLayout="horizontal"
-          dataSource={shuffledLists}
-          renderItem={list => (
+          dataSource={shuffledItems}
+          renderItem={item => (
             <List.Item>
               <List.Item.Meta
-                title={<Text strong>{list.name}</Text>}
-                description={`${list.items.length} items`}
+                title={<Text strong>{item}</Text>}
               />
             </List.Item>
           )}

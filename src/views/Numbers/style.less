@@ -12,6 +12,9 @@
   justify-content: center;
   background-color: rgb(110,175,224);
   min-height: calc(100vh - 64px - 48px);
+  @media @xs, @sm {
+    min-height: calc(100vh - 64px - 48px - 62px - 88px);
+  }
   * {
     color: white !important;
   }
@@ -26,19 +29,5 @@
   }
   h4 {
     font-size: 30px;
-  }
-  &.zoom {
-    animation: zoom 0.1s linear;
-  }
-}
-
-@keyframes zoom {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
   }
 }

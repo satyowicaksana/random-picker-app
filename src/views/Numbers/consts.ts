@@ -11,3 +11,10 @@ export interface FormValues {
   totalResult: number
   hasRepetition: boolean
 }
+
+export interface ChangedValues {
+  min?: number
+  max?: number
+  totalResult?: number
+  hasRepetition?: boolean
+}

@@ -1,18 +1,22 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
 import { Row, Col, InputNumber, Button, Typography, Form, Slider, Checkbox } from 'antd'
 
+import { useWindowSize } from 'hooks'
 import { Navbar, BottomDrawer } from 'components'
+import { windowSizes } from 'consts'
 import { randomizer } from 'helpers'
-import { formFields, FormValues } from './consts'
+import { ChangedValues, formFields, FormValues } from './consts'
 import './style.less'
 
 const { Title, Text } = Typography
 
 const Numbers = () => {
+  const { width } = useWindowSize()
   const [form] = Form.useForm()
 
   const [toggleCardZoom, setToggleCardZoom] = useState(false)
   const [results, setResults] = useState<number[]>([])
+  const [isDisabledHasRepetition, setIsDisabledHasRepetition] = useState(false)
 
   useEffect(() => {
     if(form) {
@@ -25,12 +29,15 @@ const Numbers = () => {
     }
   }, [form])
 
-  const handleChangeForm = (changedValues: any, values: FormValues) => {
-    const {min, max, totalResult, hasRepetition} = values
-    if(max < totalResult && !hasRepetition) {
+  const handleChangeForm = (changedValues: ChangedValues, values: FormValues) => {
+    const {max, totalResult} = values
+    if((changedValues.max || changedValues.totalResult) && (max < totalResult)) { //handle max and totalResult constraint
       form.setFieldsValue({
         [formFields.hasRepetition]: true
       })
+      if(!isDisabledHasRepetition) setIsDisabledHasRepetition(true)
+    } else {
+      if(isDisabledHasRepetition) setIsDisabledHasRepetition(false)
     }
   }
 
@@ -61,10 +68,10 @@ const Numbers = () => {
   }
 
   const getResultFontSize = (resultLength: number) => {
+    if(resultLength >= 7 && width <= windowSizes.md.max) return 24
+    if(resultLength >= 4 && width <= windowSizes.md.max) return 40
     if(resultLength >= 9) return 24
     if(resultLength >= 6) return 40
-    //if(resultLength >= 10 && width >= windowSizes.md.min) return 16
-    //if(resultLength >= 5 && width >= windowSizes.md.min) return 20
     return 60
   }
 
@@ -118,11 +125,11 @@ const Numbers = () => {
     </Form.Item>
   )
 
-  return (<>
-    <Navbar
-      settingsContent={renderSettingsForm()}
-    />
+  return (
     <Form form={form} onFinish={handleFinishForm} onValuesChange={handleChangeForm}>
+      <Navbar
+        settingsContent={renderSettingsForm()}
+      />
       <div className='content-container'>
         <Row gutter={24}>
           <Col xs={24} md={12}>
@@ -162,7 +169,7 @@ const Numbers = () => {
             </div>
           </Col>
           <Col xs={24} md={12}>
-            <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card ${toggleCardZoom ? 'zoom' : ''}`}>
+            <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card p-3 ${toggleCardZoom ? 'zoom' : ''}`}>
               <div>
                   {results.map(result => (
                 <div>
@@ -184,7 +191,7 @@ const Numbers = () => {
         {renderGenerateButton()}
       </BottomDrawer>
     </Form>
-  </>)
+  )
 }
 
 export default Numbers;

@@ -1,18 +1,14 @@
-import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { List, Col, InputNumber, Button, Typography, Form, notification, Modal, Slider, Checkbox } from 'antd'
-
-import { Navbar, BottomDrawer } from 'components'
-import { windowSizes } from 'consts'
-import { useWindowSize } from 'hooks'
-import { randomizer } from 'helpers'
-import { useLiveQuery } from 'dexie-react-hooks'
-import { db } from 'storage'
-import { AiOutlineRight } from 'react-icons/ai'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { List, Button, Typography } from 'antd'
+
+import { randomizer } from 'helpers'
+import { db } from 'storage'
 import { ListsParamTypes } from 'views/Lists/consts'
 import './style.less'
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 const Shuffle = () => {
   const { id } = useParams<ListsParamTypes>()

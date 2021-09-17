@@ -1,28 +1,23 @@
-import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, InputNumber, Button, Typography, Form, List, Modal, Slider, Checkbox } from 'antd'
-
-import { Navbar, BottomDrawer } from 'components'
-import { windowSizes } from 'consts'
-import { useWindowSize } from 'hooks'
-import { randomizer } from 'helpers'
-import './style.less'
-import { useLiveQuery } from 'dexie-react-hooks'
-import { db } from 'storage'
-import { AiOutlineRight } from 'react-icons/ai'
-import { MdEdit } from 'react-icons/md'
+import { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { tabKey } from '../../consts'
-import { ListsParamTypes } from 'views/Lists/consts'
-import { useForm } from 'antd/lib/form/Form'
-import { formFields } from './consts'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { Row, Col, InputNumber, Button, Typography, Form, List } from 'antd'
+import { MdEdit } from 'react-icons/md'
 
-const { Title, Text } = Typography
+import { randomizer } from 'helpers'
+import { db } from 'storage'
+import { ListsParamTypes } from 'views/Lists/consts'
+import { tabKey } from '../../consts'
+import { formFields } from './consts'
+import './style.less'
+
+const { Text } = Typography
 
 const Groups = () => {
   const history = useHistory()
   const { id } = useParams<ListsParamTypes>()
 
-  const [form] = useForm()
+  const [form] = Form.useForm()
 
   const list = useLiveQuery(() => db.lists.get(Number(id)))
 
@@ -33,7 +28,7 @@ const Groups = () => {
     form.setFieldsValue({
       [formFields.totalGroup]: 2
     })
-  }, [])
+  }, [form])
 
   if(!list) {
     return null

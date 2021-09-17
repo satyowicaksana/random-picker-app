@@ -6,7 +6,7 @@ import { IoIosArrowBack, IoIosSettings } from 'react-icons/io'
 import { titlesMap } from './consts'
 import './style.less';
 
-const { Text, Title } = Typography
+const { Title } = Typography
 
 type NavbarProps = {
   title?: string

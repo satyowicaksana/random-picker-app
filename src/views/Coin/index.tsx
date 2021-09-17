@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react'
-import { Row, Col, InputNumber, Button, Typography, Form, notification } from 'antd'
-import { KeyboardEventHandler } from 'react'
+import { useState } from 'react'
+import { Button, Typography } from 'antd'
 
+import { randomizer } from 'helpers'
 import { Navbar } from 'components'
 import { head, tail } from 'assets'
-import { randomizer } from 'helpers'
 import './style.less'
 
 const { Title } = Typography

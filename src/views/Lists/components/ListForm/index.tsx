@@ -1,23 +1,17 @@
-import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, List, Avatar, Modal, Button, Typography, Form, notification, Input, Slider, Checkbox } from 'antd'
+import { useState, useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { Row, Col, List, Modal, Button, Typography, Form, Input, Anchor } from 'antd'
 import { MdModeEdit } from 'react-icons/md';
 import { AiFillDelete } from 'react-icons/ai';
 
-import { Navbar, BottomDrawer } from 'components'
-import { windowSizes } from 'consts'
-import { useWindowSize } from 'hooks'
-import './style.less'
-import { randomizer } from 'helpers'
 import { db } from 'storage';
 import { ListType } from 'interfaces/list';
-import { useHistory, useParams } from 'react-router-dom';
-import { formFields } from './consts';
 import { ListsParamTypes } from 'views/Lists/consts';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { isGetAccessorDeclaration } from 'typescript';
+import { formFields } from './consts';
+import './style.less'
 
-const { Title, Text } = Typography
-const { Search } = Input
+const { Title } = Typography
 
 const Lists = () => {
   const [form] = Form.useForm()
@@ -36,7 +30,7 @@ const Lists = () => {
       })
       setItems(list.items)
     }
-  }, [list])
+  }, [list, form])
 
   const handleClickAddItem = () => {
     if(form.getFieldValue(formFields.itemName)) {
@@ -126,8 +120,8 @@ const Lists = () => {
             renderItem={(item, i) => (
               <List.Item
                 actions={[
-                  <a onClick={() => handleClickShowEditItemModal(i)}><MdModeEdit/></a>,
-                  <a onClick={() => handleClickDeleteItem(i)}><AiFillDelete/></a>
+                  <Anchor onClick={() => handleClickShowEditItemModal(i)}><MdModeEdit/></Anchor>,
+                  <Anchor onClick={() => handleClickDeleteItem(i)}><AiFillDelete/></Anchor>
                 ]}
               >
                 <List.Item.Meta

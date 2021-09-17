@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Row, Col, InputNumber, Button, Typography, Form, notification } from 'antd'
-import { KeyboardEventHandler } from 'react'
+import { Button, Typography } from 'antd'
 import ReactCardFlip from 'react-card-flip'
 
-import { cards, spades } from 'assets'
 import { randomizer } from 'helpers'
-import './style.less'
-import { Card, cardsData } from './const'
 import { Navbar } from 'components'
+import { Card, cardsData } from './const'
+import './style.less'
 
 const { Title } = Typography
 
@@ -91,7 +89,7 @@ const Cards = () => {
         {displayedDrawedCardName && <Title type='secondary' level={3}>{displayedDrawedCardName}</Title>}
       </div>
       <div className='cards-button-container'>
-        <Button size='large' type='primary' disabled={undrawedCardIndexes.length === 0} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
+        <Button size='large' type='primary' disabled={!undrawedCardIndexes.length || disableClickDraw} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
         <Button size='large' disabled={undrawedCardIndexes.length === cardsData.length} onClick={handleClickResetDeck} className='cards-button'>Reset Deck</Button>
       </div>
     </div>

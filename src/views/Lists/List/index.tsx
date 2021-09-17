@@ -1,27 +1,17 @@
-import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, List, Avatar, Modal, Button, Typography, Form, notification, Input, Menu, Checkbox } from 'antd'
+import { useState, useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom';
+import { Row, Col, Menu } from 'antd'
 import { MdEdit, MdGroup, MdShuffle, MdList } from 'react-icons/md';
 
-import { Navbar, BottomDrawer } from 'components'
-import { windowSizes } from 'consts'
-import { useWindowSize } from 'hooks'
-import { randomizer } from 'helpers'
 import { db } from 'storage';
-import { useHistory, useParams } from 'react-router-dom';
 import { ListType } from 'interfaces/list';
-import {
-  Element, Shuffle, Groups, Edit
-} from './views'
-import './style.less'
-import { tabKey } from './consts';
+import { Navbar } from 'components'
+import { Element, Shuffle, Groups, Edit } from './views'
 import { ListsParamTypes } from '../consts';
-
-const { Title, Text } = Typography
-const { Search } = Input
+import { tabKey } from './consts';
+import './style.less'
 
 const Lists = () => {
-  const [form] = Form.useForm()
-  const { width } = useWindowSize()
   const history = useHistory()
   const { id, tab = tabKey.element } = useParams<ListsParamTypes>()
 
@@ -38,7 +28,7 @@ const Lists = () => {
       }
     }
     getList()
-  }, [])
+  }, [id])
 
   useEffect(() => {
   }, [tab])

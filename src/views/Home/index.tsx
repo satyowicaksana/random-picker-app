@@ -1,11 +1,11 @@
 import { useHistory } from 'react-router-dom'
-import { Row, Col, Card, Typography } from 'antd'
+import { Row, Col, Typography } from 'antd'
 
+import { Navbar } from 'components';
 import { menuItems } from './consts'
 import './style.less';
-import { Navbar } from 'components';
 
-const { Text, Title } = Typography
+const { Text } = Typography
 
 const Home = () => {
   const history = useHistory()

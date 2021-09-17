@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Button, Typography, Form } from 'antd'
-
-import { BottomDrawer } from 'components'
-import { randomizer } from 'helpers'
-import { ListsParamTypes } from 'views/Lists/consts'
 import { useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { Button, Typography, Form } from 'antd'
+
+import { randomizer } from 'helpers'
 import { db } from 'storage'
+import { BottomDrawer } from 'components'
+import { ListsParamTypes } from 'views/Lists/consts'
 import './style.less'
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 const Element = () => {
   const { id } = useParams<ListsParamTypes>()

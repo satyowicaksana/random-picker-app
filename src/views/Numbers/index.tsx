@@ -1,5 +1,5 @@
 import { useState, useEffect, KeyboardEventHandler } from 'react'
-import { Row, Col, InputNumber, Button, Typography, Form, Slider, Checkbox } from 'antd'
+import { Row, Col, InputNumber, Button, Typography, Form, Slider, Checkbox, Tooltip, notification } from 'antd'
 
 import { useWindowSize } from 'hooks'
 import { Navbar, BottomDrawer } from 'components'
@@ -7,6 +7,7 @@ import { windowSizes } from 'consts'
 import { randomizer } from 'helpers'
 import { ChangedValues, formFields, FormValues } from './consts'
 import './style.less'
+import { MdContentCopy } from 'react-icons/md'
 
 const { Title, Text } = Typography
 
@@ -68,11 +69,21 @@ const Numbers = () => {
   }
 
   const getResultFontSize = (resultLength: number) => {
-    if(resultLength >= 7 && width <= windowSizes.md.max) return 24
-    if(resultLength >= 4 && width <= windowSizes.md.max) return 40
-    if(resultLength >= 9) return 24
-    if(resultLength >= 6) return 40
-    return 60
+    if(width <= windowSizes.sm.max) { //mobile
+      if(resultLength >= 6) return 6
+      return 10
+    } else { //desktop
+      if(resultLength >= 7) return 2
+      if(resultLength >= 5) return 3
+      return 4
+    }
+  }
+
+  const handleClickCopyToClipboard = () => {
+    navigator.clipboard.writeText(results.join(', '))
+    notification.open({
+      message: 'Copied to clipboard'
+    })
   }
 
   const renderSettingsForm = () => (
@@ -168,23 +179,32 @@ const Numbers = () => {
               {renderSettingsForm()}
             </div>
           </Col>
-          <Col xs={24} md={12}>
-            <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card p-3 ${toggleCardZoom ? 'zoom' : ''}`}>
-              <div>
-                  {results.map(result => (
+          {!!(results.length) && (
+            <Col xs={24} md={12}>
+              <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card p-3 ${toggleCardZoom ? 'zoom' : ''}`}>
+                <Tooltip title='Copy to clipboard'>
+                  <MdContentCopy
+                    size={24}
+                    onClick={handleClickCopyToClipboard}
+                    className='numbers-copy-icon clickable'
+                  />
+                </Tooltip>
                 <div>
-                  <Title
-                    style={{
-                      fontSize: `${getResultFontSize(results.length)}px`
-                    }}
-                  >
-                    {`${result}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </Title>
+                    {results.map(result => (
+                  <div>
+                    <Title
+                      style={{
+                        fontSize: `${getResultFontSize(results.length)}vw`
+                      }}
+                    >
+                      {`${result}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    </Title>
+                  </div>
+                  ))}
                 </div>
-                ))}
               </div>
-            </div>
-          </Col>
+            </Col>
+          )}
         </Row>
       </div>
       <BottomDrawer>

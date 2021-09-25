@@ -85,7 +85,7 @@ const Lists = () => {
         <Col>
           <Menu selectedKeys={[tab]} inlineCollapsed>
             {menuItems.map(menu => (
-              <Menu.Item key={menu.key} icon={menu.icon} onClick={() => history.push(`/lists/${id}/${menu.key}`)}>
+              <Menu.Item key={menu.key} icon={menu.icon} onClick={() => history.replace(`/lists/${id}/${menu.key}`)}>
                 {menu.label}
               </Menu.Item>
             ))}

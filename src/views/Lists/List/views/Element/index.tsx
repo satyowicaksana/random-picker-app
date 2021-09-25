@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { Button, Typography, Form } from 'antd'
+import { Button, Typography, Form, Tooltip, notification } from 'antd'
 
 import { randomizer } from 'helpers'
 import { db } from 'storage'
 import { BottomDrawer } from 'components'
 import { ListsParamTypes } from 'views/Lists/consts'
+import { MdContentCopy } from 'react-icons/md'
 import './style.less'
 
 const { Title } = Typography
@@ -47,6 +48,13 @@ const Element = () => {
     </Form.Item>
   )
 
+  const handleClickCopyToClipboard = () => {
+    navigator.clipboard.writeText(result)
+    notification.open({
+      message: 'Copied to clipboard'
+    })
+  }
+
   return (<>
     <Form form={form} onFinish={handleFinish}>
       <div className='element-content-container'>
@@ -55,6 +63,13 @@ const Element = () => {
         </div>
         {result && (
           <div onAnimationEnd={() => setToggleCardZoom(false)} className={`element-card card ${toggleCardZoom ? 'zoom' : ''}`}>
+            <Tooltip title='Copy to clipboard'>
+              <MdContentCopy
+                size={24}
+                onClick={handleClickCopyToClipboard}
+                className='element-copy-icon clickable'
+              />
+            </Tooltip>
             <div>
               <Title>
                 {result}

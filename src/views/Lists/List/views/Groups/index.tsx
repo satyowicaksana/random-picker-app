@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { Row, Col, InputNumber, Button, Typography, Form, List } from 'antd'
-import { MdEdit } from 'react-icons/md'
+import { Row, Col, InputNumber, Button, Typography, Form, List, notification } from 'antd'
+import { MdContentCopy, MdEdit } from 'react-icons/md'
 
 import { randomizer } from 'helpers'
 import { db } from 'storage'
@@ -57,6 +57,13 @@ const Groups = () => {
     setToggleZoom(true)
   }
 
+  const handleClickCopyToClipboard = (group: string) => {
+    navigator.clipboard.writeText(group)
+    notification.open({
+      message: 'Copied to clipboard'
+    })
+  }
+
   return (<>
     <div>
     <Form form={form}>
@@ -100,7 +107,11 @@ const Groups = () => {
               itemLayout="horizontal"
               dataSource={groups}
               renderItem={group => (
-                <List.Item>
+                <List.Item
+                  actions={[
+                    <a href='#' onClick={() => handleClickCopyToClipboard(group.join(', '))}><MdContentCopy/></a>,
+                  ]}
+                >
                   <List.Item.Meta
                     title={<Text strong>{group.join(', ')}</Text>}
                   />

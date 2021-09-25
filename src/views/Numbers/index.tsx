@@ -108,9 +108,8 @@ const Numbers = () => {
         <Text>10</Text>
         </Col>
       </Row>
-      <Form.Item name={formFields.hasRepetition} dependencies={[formFields.max, formFields.totalResult]} valuePropName='checked'>
+      <Form.Item name={formFields.hasRepetition} valuePropName='checked'>
         <Checkbox
-          disabled={form.getFieldValue(formFields.max) < form.getFieldValue(formFields.totalResult)}
         >
           Repetition
         </Checkbox>
@@ -190,8 +189,8 @@ const Numbers = () => {
                   />
                 </Tooltip>
                 <div>
-                    {results.map(result => (
-                  <div>
+                    {results.map((result, i) => (
+                  <div key={`${result}-${i}`}>
                     <Title
                       style={{
                         fontSize: `${getResultFontSize(results.length)}vw`

@@ -1,5 +1,11 @@
 @import 'lib.less';
 
+.shuffle-container {
+  @media @xs, @sm {
+    height: calc(100vh - 64px - 48px - 86px - 88px);
+    overflow-y: scroll;
+  }
+}
 .shuffle-lists-container {
   &.zoom {
     animation: zoom 0.1s linear;

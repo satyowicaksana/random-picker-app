@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom';
-import { Row, Col, Menu } from 'antd'
+import { Row, Col, Menu, Typography } from 'antd'
 import { MdEdit, MdGroup, MdShuffle, MdList } from 'react-icons/md';
 
 import { db } from 'storage';
@@ -10,6 +10,8 @@ import { Element, Shuffle, Groups, Edit } from './views'
 import { ListsParamTypes } from '../consts';
 import { tabKey } from './consts';
 import './style.less'
+
+const { Text } = Typography
 
 const Lists = () => {
   const history = useHistory()
@@ -101,10 +103,11 @@ const Lists = () => {
       </Row>
     </div>
     <BottomDrawer>
-      <Row justify='space-around'>
+      <Row>
         {menuItems.map(item => (
-          <Col onClick={() => handleClickChangeTab(item.key)} className={`list-tab-icon-container ${item.key === tab ? 'selected' : ''}`}>
+          <Col span={6} onClick={() => handleClickChangeTab(item.key)} className={`list-tab-icon-container ${item.key === tab ? 'selected' : ''}`}>
             {item.icon}
+            <Text>{item.label}</Text>
           </Col>
         ))}
       </Row>

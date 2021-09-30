@@ -45,7 +45,7 @@ const Shuffle = () => {
   )
 
   return (<>
-    <div>
+    <div className='shuffle-container'>
       <div className='desktop'>
         {renderShuffleButton()}
       </div>

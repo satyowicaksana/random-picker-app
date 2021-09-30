@@ -62,7 +62,7 @@ const Dice = () => {
       settingsContent={renderSettingsForm()}
     />
     <div >
-      <Row gutter={{xs: 0, sm: 0, md: 40}} wrap={false}>
+      <Row gutter={{xs: 0, md: 40}} wrap={false}>
         <Col flex='400px' className='desktop'>
           {renderRollButton()}
           <div  className='mt-2'/>

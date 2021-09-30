@@ -1,5 +1,11 @@
 @import 'lib.less';
 
+.groups-container {
+  @media @xs, @sm {
+    height: calc(100vh - 64px - 48px - 86px - 88px);
+    overflow-y: scroll;
+  }
+}
 .groups-form-item {
   height: 40px;
 }

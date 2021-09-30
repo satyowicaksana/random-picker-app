@@ -7,6 +7,7 @@ import { MdContentCopy, MdEdit } from 'react-icons/md'
 import { randomizer } from 'helpers'
 import { db } from 'storage'
 import { ListsParamTypes } from 'views/Lists/consts'
+import { BottomDrawer } from 'components'
 import { tabKey } from '../../consts'
 import { formFields } from './consts'
 import './style.less'
@@ -64,65 +65,70 @@ const Groups = () => {
     })
   }
 
+  const renderGenerateGroupButton = () => (
+    <Button type='primary' size='large' onClick={handleClickGenerateGroup}>
+      Generate Group
+    </Button>
+  )
+
   return (<>
-    <div>
-    <Form form={form}>
-
-      {list.items.length <= 2 ? (
-        <>
-          <div className='mb-2'>
-            <Text>The list should have more than two items in order to be split into groups.</Text>
-          </div>
-          <Button
-            icon={<MdEdit className='mr-1'/>}
-            type='primary'
-            size='large'
-            onClick={() => history.push(`/lists/${id}/${tabKey.edit}`)}
-          >
-            Edit List
-          </Button>
-        </>
-      ) : (<>
-          <Row align='middle' gutter={12} className='mb-4'>
-            <Col>
-              <Row align='middle' gutter={8}>
-                <Col>
-                  <Text>Number of groups:</Text>
-                </Col>
-                <Col >
-                  <Form.Item name={formFields.totalGroup} className='groups-form-item' >
-                    <InputNumber size='large' min={2} max={list.items.length - 1}/>
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Col>
-            <Col>
-              <Button type='primary' size='large' onClick={handleClickGenerateGroup}>
-                Generate Group
-              </Button>
-            </Col>
-          </Row>
-          <div onAnimationEnd={() => setToggleZoom(false)} className={`groups-lists-container ${toggleZoom ? 'zoom' : ''}`}>
-            <List
-              itemLayout="horizontal"
-              dataSource={groups}
-              renderItem={group => (
-                <List.Item
-                  actions={[
-                    <a href='#' onClick={() => handleClickCopyToClipboard(group.join(', '))}><MdContentCopy/></a>,
-                  ]}
-                >
-                  <List.Item.Meta
-                    title={<Text strong>{group.join(', ')}</Text>}
-                  />
-                </List.Item>
-              )}
-              className='list-selectable shuffle-lists'
-            />
-          </div>
-      </>)}
-        </Form>
-
+    <div className='groups-container'>
+      <Form form={form}>
+        {list.items.length <= 2 ? (
+          <>
+            <div className='mb-2'>
+              <Text>The list should have more than two items in order to be split into groups.</Text>
+            </div>
+            <Button
+              icon={<MdEdit className='mr-1'/>}
+              type='primary'
+              size='large'
+              onClick={() => history.push(`/lists/${id}/${tabKey.edit}`)}
+            >
+              Edit List
+            </Button>
+          </>
+        ) : (<>
+            <Row align='middle' gutter={{xs: 0, md: 12}} className='mb-4'>
+              <Col>
+                <Row align='middle' gutter={8}>
+                  <Col>
+                    <Text>Number of groups:</Text>
+                  </Col>
+                  <Col >
+                    <Form.Item name={formFields.totalGroup} className='groups-form-item' >
+                      <InputNumber size='large' min={2} max={list.items.length - 1}/>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
+              <Col className='desktop'>
+                {renderGenerateGroupButton()}
+              </Col>
+            </Row>
+            <div onAnimationEnd={() => setToggleZoom(false)} className={`groups-lists-container ${toggleZoom ? 'zoom' : ''}`}>
+              <List
+                itemLayout="horizontal"
+                dataSource={groups}
+                renderItem={group => (
+                  <List.Item
+                    actions={[
+                      <a href='#' onClick={() => handleClickCopyToClipboard(group.join(', '))}><MdContentCopy/></a>,
+                    ]}
+                  >
+                    <List.Item.Meta
+                      title={<Text strong>{group.join(', ')}</Text>}
+                    />
+                  </List.Item>
+                )}
+                className='list-selectable shuffle-lists'
+              />
+            </div>
+        </>)}
+        <BottomDrawer className='list-button-bottom-drawer'>
+          {renderGenerateGroupButton()}
+        </BottomDrawer>
+      </Form> 
     </div>
   </>)
 }

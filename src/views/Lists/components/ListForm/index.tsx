@@ -92,7 +92,7 @@ const Lists = () => {
           <Row justify='space-between'>
             <Col>
               <Form.Item name={formFields.listName}>
-                <Input size='large' placeholder='List Name' className='mb-2'/>
+                <Input size='large' placeholder='List Name' maxLength={50} className='mb-2'/>
               </Form.Item>
             </Col>
             <Form.Item shouldUpdate>
@@ -113,7 +113,7 @@ const Lists = () => {
               <Row gutter={16}>
                 <Col>
                   <Form.Item name={formFields.itemName}>
-                    <Input onPressEnter={handleClickAddItem} size='large' placeholder='New Item'/>
+                    <Input onPressEnter={handleClickAddItem} size='large' placeholder='New Item' maxLength={50}/>
                   </Form.Item>
                 </Col>
                 <Col>
@@ -184,7 +184,7 @@ const Lists = () => {
         >
           <Title level={4}>Edit Item</Title>
           <Form.Item name={formFields.editedItemName}>
-            <Input onPressEnter={handleClickEditItem} size='large' placeholder='Item Name' className='mb-2'/>
+            <Input onPressEnter={handleClickEditItem} maxLength={50} size='large' placeholder='Item Name' className='mb-2'/>
           </Form.Item>
           <Row justify='end'>
             <Col>

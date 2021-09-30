@@ -5,7 +5,7 @@ import { MdEdit, MdGroup, MdShuffle, MdList } from 'react-icons/md';
 
 import { db } from 'storage';
 import { ListType } from 'interfaces/list';
-import { Navbar } from 'components'
+import { Navbar, BottomDrawer } from 'components'
 import { Element, Shuffle, Groups, Edit } from './views'
 import { ListsParamTypes } from '../consts';
 import { tabKey } from './consts';
@@ -32,6 +32,10 @@ const Lists = () => {
 
   useEffect(() => {
   }, [tab])
+
+  const handleClickChangeTab = (key: string) => {
+    history.replace(`/lists/${id}/${key}`)
+  }
 
   const renderContent = () => {
     if (notFound) return (
@@ -80,13 +84,13 @@ const Lists = () => {
 
   return (<>
     <Navbar title={list?.name}/>
-    <div className='content-container'>
-      <Row gutter={40}>
-        <Col>
+    <div className='content-container list-content-container'>
+      <Row gutter={40} wrap={false}>
+        <Col className='desktop'>
           <Menu selectedKeys={[tab]} inlineCollapsed>
-            {menuItems.map(menu => (
-              <Menu.Item key={menu.key} icon={menu.icon} onClick={() => history.replace(`/lists/${id}/${menu.key}`)}>
-                {menu.label}
+            {menuItems.map(item => (
+              <Menu.Item key={item.key} icon={item.icon} onClick={() => handleClickChangeTab(item.key)}>
+                {item.label}
               </Menu.Item>
             ))}
           </Menu>
@@ -96,6 +100,15 @@ const Lists = () => {
         </Col>
       </Row>
     </div>
+    <BottomDrawer>
+      <Row justify='space-around'>
+        {menuItems.map(item => (
+          <Col onClick={() => handleClickChangeTab(item.key)} className={`list-tab-icon-container ${item.key === tab ? 'selected' : ''}`}>
+            {item.icon}
+          </Col>
+        ))}
+      </Row>
+    </BottomDrawer>
   </>)
 }
 

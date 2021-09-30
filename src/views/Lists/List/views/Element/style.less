@@ -1,26 +1,21 @@
 @import 'lib.less';
 
-.element-content-container {
-  width: 50%;
-}
 .element-card {
   position: relative;
-  background-color: rgb(60,179,137);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 64px - 48px);
+  background-color: @primary-color;
+  word-break: break-word;
   * {
     color: white !important;
   }
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
-  div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
   &.zoom {
     animation: zoom 0.1s linear;
+  }
+  @media @xs, @sm {
+    height: calc(100vh - 64px - 48px - 68px - 88px);
   }
 }
 .element-copy-icon {
@@ -31,5 +26,11 @@
   transition: opacity 0.2s;
   &:hover, &:active {
     opacity: unset;
+  }
+}
+.element-bottom-drawer {
+  margin-bottom: 68px;
+  button {
+    width: 100%;
   }
 }

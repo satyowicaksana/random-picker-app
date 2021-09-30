@@ -31,7 +31,7 @@ const Navbar = ({
     <div className='navbar-container px-3'>
       <Row align='middle' justify='space-between' className='full-width'>
         <Col>
-          <Row gutter={16} align='middle'>
+          <Row gutter={16} align='middle' wrap={false}>
             {showArrowBack && (
               <Col>
                 <div onClick={() => history.goBack()} className='card p-1 clickable'>
@@ -39,8 +39,8 @@ const Navbar = ({
                 </div>
               </Col>
             )}
-            <Col>
-              <Title level={3} className='mb-0'>{title || titlesMap[location.pathname]}</Title>
+            <Col flex='auto'>
+              <Title level={3} ellipsis={{rows: 1}} className='mb-0'>{title || titlesMap[location.pathname]}</Title>
             </Col>
           </Row>
         </Col>

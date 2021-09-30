@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { Button, Typography, Form, Tooltip, notification } from 'antd'
+import { Button, Typography, Form, Tooltip, Row, Col, notification } from 'antd'
 
 import { randomizer } from 'helpers'
 import { db } from 'storage'
@@ -9,11 +9,14 @@ import { BottomDrawer } from 'components'
 import { ListsParamTypes } from 'views/Lists/consts'
 import { MdContentCopy } from 'react-icons/md'
 import './style.less'
+import { useWindowSize } from 'hooks'
+import { windowSizes } from 'consts'
 
 const { Title } = Typography
 
 const Element = () => {
   const { id } = useParams<ListsParamTypes>()
+  const { width } = useWindowSize()
 
   const list = useLiveQuery(() => db.lists.get(Number(id)))
 
@@ -57,28 +60,30 @@ const Element = () => {
 
   return (<>
     <Form form={form} onFinish={handleFinish}>
-      <div className='element-content-container'>
-        <div className='desktop mb-3'>
+      <Row>
+        <Col span={12} className='desktop'>
           {renderGenerateButton()}
-        </div>
-        {result && (
-          <div onAnimationEnd={() => setToggleCardZoom(false)} className={`element-card card ${toggleCardZoom ? 'zoom' : ''}`}>
-            <Tooltip title='Copy to clipboard'>
-              <MdContentCopy
-                size={24}
-                onClick={handleClickCopyToClipboard}
-                className='element-copy-icon clickable'
-              />
-            </Tooltip>
+        </Col>
+        <Col xs={24} md={12}>
+          <div onAnimationEnd={() => setToggleCardZoom(false)} className={`element-card card ${toggleCardZoom ? 'zoom' : ''} p-3`}>
+            {result && (
+              <Tooltip title='Copy to clipboard'>
+                <MdContentCopy
+                  size={24}
+                  onClick={handleClickCopyToClipboard}
+                  className='element-copy-icon clickable'
+                />
+              </Tooltip>
+            )}
             <div>
-              <Title>
+              <Title level={width <= windowSizes.sm.max ? 2 : 1} ellipsis={{rows: 2, tooltip: true}}>
                 {result}
               </Title>
             </div>
           </div>
-        )}
-      </div>
-      <BottomDrawer>
+        </Col>
+      </Row>
+      <BottomDrawer className='element-bottom-drawer'>
         {renderGenerateButton()}
       </BottomDrawer>
     </Form>

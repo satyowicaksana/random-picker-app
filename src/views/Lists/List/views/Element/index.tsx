@@ -83,7 +83,7 @@ const Element = () => {
           </div>
         </Col>
       </Row>
-      <BottomDrawer className='element-bottom-drawer'>
+      <BottomDrawer className='list-button-bottom-drawer'>
         {renderGenerateButton()}
       </BottomDrawer>
     </Form>

@@ -6,9 +6,10 @@ import { List, Button, Typography } from 'antd'
 import { randomizer } from 'helpers'
 import { db } from 'storage'
 import { ListsParamTypes } from 'views/Lists/consts'
+import { BottomDrawer } from 'components'
 import './style.less'
 
-const { Text } = Typography
+const { Paragraph } = Typography
 
 const Shuffle = () => {
   const { id } = useParams<ListsParamTypes>()
@@ -32,9 +33,8 @@ const Shuffle = () => {
     }
   }, [list])
 
-  return (<>
-    <div>
-      <Button
+  const renderShuffleButton = () => (
+    <Button
         type='primary'
         size='large'
         onClick={handleClickShuffle}
@@ -42,6 +42,13 @@ const Shuffle = () => {
       >
         Shuffle
       </Button>
+  )
+
+  return (<>
+    <div>
+      <div className='desktop'>
+        {renderShuffleButton()}
+      </div>
       <div onAnimationEnd={() => setToggleZoom(false)} className={`shuffle-lists-container ${toggleZoom ? 'zoom' : ''}`}>
         <List
           itemLayout="horizontal"
@@ -49,13 +56,16 @@ const Shuffle = () => {
           renderItem={item => (
             <List.Item>
               <List.Item.Meta
-                title={<Text strong>{item}</Text>}
+                title={<Paragraph ellipsis strong className='mb-0'>{item}</Paragraph>}
               />
             </List.Item>
           )}
           className='list-selectable shuffle-lists'
         />
       </div>
+      <BottomDrawer className='list-button-bottom-drawer'>
+        {renderShuffleButton()}
+      </BottomDrawer>
     </div>
   </>)
 }

@@ -9,9 +9,6 @@
   position: relative;
   min-height: calc(100vh - 64px);
   padding: 24px;
-  @media @sm, @xs {
-    padding-bottom: calc(24px + 88px);
-  }
 }
 .ant-btn {
   border-radius: 8px;
@@ -65,6 +62,11 @@
 .ant-modal-footer {
   display: none;
 }
+.ant-list-item {
+  @media @md, @lg, @xl {
+    padding: 12px;
+  }
+}
 .card {
   border-radius: 16px;
   box-shadow: @box-shadow-0;
@@ -105,12 +107,13 @@
   justify-content: center;
 }
 .list-selectable {
-  cursor: pointer;
-  .ant-list-item {
-    transition: background-color 0.2s;
-    padding: 12px 24px;
-    &:hover {
-      background-color: @base-darker;
+  @media @md, @lg, @xl {
+    cursor: pointer;
+    .ant-list-item {
+      transition: background-color 0.2s;
+      &:hover {
+        background-color: @base-darker;
+      }
     }
   }
 }

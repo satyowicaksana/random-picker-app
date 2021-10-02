@@ -1,7 +1,14 @@
 @import 'lib.less';
 
 .navbar-container {
-  height: 64px;
+  height: @navbar-height;
   display: flex;
   align-items: center;
+  position: fixed;
+  width: 100vw;
+  background-color: white;
+  z-index: 1;
+}
+.navbar-padding {
+  height: @navbar-height;
 }

@@ -86,7 +86,7 @@ const Lists = () => {
 
   return (<>
     <Navbar title={list?.name}/>
-    <div className='content-container list-content-container'>
+    <div className='content-container'>
       <Row gutter={40} wrap={false}>
         <Col className='desktop'>
           <Menu selectedKeys={[tab]} inlineCollapsed>

@@ -27,7 +27,7 @@ const Navbar = ({
     setShowArrowBack(location.pathname !== '/')
   }, [location])
 
-  return (
+  return (<>
     <div className='navbar-container px-3'>
       <Row align='middle' justify='space-between' className='full-width'>
         <Col>
@@ -66,7 +66,8 @@ const Navbar = ({
         {settingsContent}
       </Modal>
     </div>
-  )
+    <div className='navbar-padding'/>
+  </>)
 }
 
 export default Navbar;

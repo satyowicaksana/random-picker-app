@@ -8,14 +8,18 @@ import { AiFillDelete } from 'react-icons/ai';
 import { db } from 'storage';
 import { ListType } from 'interfaces/list';
 import { ListsParamTypes } from 'views/Lists/consts';
+import { BottomDrawer } from 'components'
 import { formFields } from './consts';
 import './style.less'
+import { windowSizes } from 'consts';
+import { useWindowSize } from 'hooks';
 
-const { Title, Text } = Typography
+const { Title, Text, Paragraph } = Typography
 
 const Lists = () => {
   const [form] = Form.useForm()
   const history = useHistory()
+  const { width } = useWindowSize()
 
   const { id } = useParams<ListsParamTypes>()
   const list = useLiveQuery(() => id ? db.lists.get(Number(id)) : undefined);
@@ -86,124 +90,150 @@ const Lists = () => {
     setItems([...items].filter((_, i) => i !== itemIndex))
   }
 
+  const renderRemoveListButton = () => (
+    <Button
+      onClick={() => setShowDeleteModal(true)}
+      size='large'
+      danger
+    >
+      Remove List
+    </Button>
+  )
+
+  const renderSaveListButton = () => (
+    <Form.Item shouldUpdate>
+      {() => (
+        <Button
+          onClick={handleClickUpdateList}
+          disabled={!form.getFieldValue(formFields.listName) || !items.length}
+          size='large'
+          type='primary'
+        >
+          Save List
+        </Button>
+      )}
+    </Form.Item>
+  )
+
+  const renderAddItemButton = () => (
+    <Form.Item shouldUpdate>
+      {() => (
+        <Button disabled={!form.getFieldValue(formFields.itemName)} size='large' type='primary' onClick={handleClickAddItem}>+ Add</Button>
+      )}
+    </Form.Item>
+  )
+
   return (
-      <Form form={form}>
-        <div className='mb-4'>
-          <Row justify='space-between'>
-            <Col>
-              <Form.Item name={formFields.listName}>
-                <Input size='large' placeholder='List Name' maxLength={50} className='mb-2'/>
-              </Form.Item>
+    <Form form={form}>
+      <div className='mb-4'>
+        <Row justify='space-between'>
+          <Col span={width <= windowSizes.sm.max ? 24 : undefined}>
+            <Form.Item name={formFields.listName}>
+              <Input size='large' placeholder='List Name' maxLength={50} className='mb-2'/>
+            </Form.Item>
+          </Col>
+          <Col className='desktop'>
+            {renderSaveListButton}
+          </Col>
+        </Row>
+        <Row justify='space-between'>
+          <Col span={width <= windowSizes.sm.max ? 24 : undefined}>
+            <Row gutter={{xs: 0, md: 16}}>
+              <Col span={width <= windowSizes.sm.max ? 24 : undefined}>
+                <Form.Item name={formFields.itemName}>
+                  <Input onPressEnter={handleClickAddItem} size='large' placeholder='New Item' maxLength={50}/>
+                </Form.Item>
+              </Col>
+              <Col className='desktop'>
+                {renderAddItemButton()}
+              </Col>
+            </Row>
+          </Col>
+          {id && (
+            <Col className='desktop'>
+              {renderRemoveListButton()}
             </Col>
+          )}
+        </Row>
+        <Row gutter={16} justify='space-between' className='mobile mt-2'>
+          <Col>
+            {renderAddItemButton()}
+          </Col>
+          <Col>
+            {renderRemoveListButton()}
+          </Col>
+        </Row>
+      </div>
+      <div>
+        <List
+          itemLayout="horizontal"
+          dataSource={items}
+          renderItem={(item, i) => (
+            <List.Item
+              actions={[
+                <a href='#' onClick={() => handleClickShowEditItemModal(i)}><MdModeEdit/></a>,
+                <a href='#' onClick={() => handleClickDeleteItem(i)}><AiFillDelete/></a>
+              ]}
+            >
+              <List.Item.Meta
+                title={<Paragraph ellipsis strong className='mb-0'>{item}</Paragraph>}
+              />
+            </List.Item>
+          )}
+          className='selectable'
+        />
+      </div>
+      <div className='list-bottom-drawer-padding'/>
+      <BottomDrawer className='list-button-bottom-drawer'>
+        {renderSaveListButton()}
+      </BottomDrawer>
+      <Modal
+        visible={showDeleteModal}
+        onCancel={() => setShowDeleteModal(false)}
+      >
+        <Title level={3}>Delete List</Title>
+        <div className='mb-2'>
+          <Text>Are you sure you want to delete <Text strong>{list?.name}</Text> list?</Text>
+        </div>
+        <Row gutter={16} justify='end'>
+          <Col>
+            <Button size='large'>
+              Cancel
+            </Button>
+          </Col>
+          <Col>
+            <Button onClick={handleClickDeleteList} size='large' danger type='primary'>
+              Delete
+            </Button>
+          </Col>
+        </Row>
+      </Modal>
+      <Modal
+        visible={editedItemIndex > -1}
+        onCancel={() => setEditedItemIndex(-1)}
+      >
+        <Title level={4}>Edit Item</Title>
+        <Form.Item name={formFields.editedItemName}>
+          <Input onPressEnter={handleClickEditItem} maxLength={50} size='large' placeholder='Item Name' className='mb-2'/>
+        </Form.Item>
+        <Row justify='end'>
+          <Col>
             <Form.Item shouldUpdate>
               {() => (
                 <Button
-                  onClick={handleClickUpdateList}
-                  disabled={!form.getFieldValue(formFields.listName) || !items.length}
+                  onClick={handleClickEditItem}
+                  disabled={!form.getFieldValue(formFields.editedItemName)}
                   size='large'
                   type='primary'
                 >
-                  Save List
+                  Edit
                 </Button>
               )}
             </Form.Item>
-          </Row>
-          <Row justify='space-between'>
-            <Col>
-              <Row gutter={16}>
-                <Col>
-                  <Form.Item name={formFields.itemName}>
-                    <Input onPressEnter={handleClickAddItem} size='large' placeholder='New Item' maxLength={50}/>
-                  </Form.Item>
-                </Col>
-                <Col>
-                  <Form.Item shouldUpdate>
-                    {() => (
-                      <Button disabled={!form.getFieldValue(formFields.itemName)} size='large' type='primary' onClick={handleClickAddItem}>+ Add</Button>
-                    )}
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Col>
-            {id && (
-              <Col>
-                <Button
-                  onClick={() => setShowDeleteModal(true)}
-                  size='large'
-                  danger
-                >
-                  Remove List
-                </Button>
-              </Col>
-            )}
-          </Row>
-        </div>
-        <div>
-          <List
-            itemLayout="horizontal"
-            dataSource={items}
-            renderItem={(item, i) => (
-              <List.Item
-                actions={[
-                  <a href='#' onClick={() => handleClickShowEditItemModal(i)}><MdModeEdit/></a>,
-                  <a href='#' onClick={() => handleClickDeleteItem(i)}><AiFillDelete/></a>
-                ]}
-              >
-                <List.Item.Meta
-                  title={item}
-                />
-              </List.Item>
-            )}
-            className='selectable'
-          />
-        </div>
-        <Modal
-          visible={showDeleteModal}
-          onCancel={() => setShowDeleteModal(false)}
-        >
-          <Title level={3}>Delete List</Title>
-          <div className='mb-2'>
-            <Text>Are you sure you want to delete <Text strong>{list?.name}</Text> list?</Text>
-          </div>
-          <Row gutter={16} justify='end'>
-            <Col>
-              <Button size='large'>
-                Cancel
-              </Button>
-            </Col>
-            <Col>
-              <Button onClick={handleClickDeleteList} size='large' danger type='primary'>
-                Delete
-              </Button>
-            </Col>
-          </Row>
-        </Modal>
-        <Modal
-          visible={editedItemIndex > -1}
-          onCancel={() => setEditedItemIndex(-1)}
-        >
-          <Title level={4}>Edit Item</Title>
-          <Form.Item name={formFields.editedItemName}>
-            <Input onPressEnter={handleClickEditItem} maxLength={50} size='large' placeholder='Item Name' className='mb-2'/>
-          </Form.Item>
-          <Row justify='end'>
-            <Col>
-              <Form.Item shouldUpdate>
-                {() => (
-                  <Button
-                    onClick={handleClickEditItem}
-                    disabled={!form.getFieldValue(formFields.editedItemName)}
-                    size='large'
-                    type='primary'
-                  >
-                    Edit
-                  </Button>
-                )}
-              </Form.Item>
-            </Col>
-          </Row>
-        </Modal>
-      </Form>
+          </Col>
+        </Row>
+      </Modal>
+    </Form>
   )
 }
 

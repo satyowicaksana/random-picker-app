@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 64px - 48px);
+  height: calc(100vh - @navbar-height - 48px);
   background-color: @primary-color;
   word-break: break-word;
   * {
@@ -15,7 +15,7 @@
     animation: zoom 0.1s linear;
   }
   @media @xs, @sm {
-    height: calc(100vh - 64px - 48px - 86px - 88px);
+    height: calc(100vh - @navbar-height - 48px - @button-bottom-drawer-height - @list-menu-bottom-drawer-height);
   }
 }
 .element-copy-icon {

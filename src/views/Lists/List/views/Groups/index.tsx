@@ -72,7 +72,7 @@ const Groups = () => {
   )
 
   return (<>
-    <div className='groups-container'>
+    <div>
       <Form form={form}>
         {list.items.length <= 2 ? (
           <>
@@ -83,7 +83,7 @@ const Groups = () => {
               icon={<MdEdit className='mr-1'/>}
               type='primary'
               size='large'
-              onClick={() => history.push(`/lists/${id}/${tabKey.edit}`)}
+              onClick={() => history.replace(`/lists/${id}/${tabKey.edit}`)}
             >
               Edit List
             </Button>
@@ -128,6 +128,7 @@ const Groups = () => {
         <BottomDrawer className='list-button-bottom-drawer'>
           {renderGenerateGroupButton()}
         </BottomDrawer>
+        <div className='list-bottom-drawer-padding'/>
       </Form> 
     </div>
   </>)

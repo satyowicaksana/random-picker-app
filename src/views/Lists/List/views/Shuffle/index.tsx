@@ -45,7 +45,7 @@ const Shuffle = () => {
   )
 
   return (<>
-    <div className='shuffle-container'>
+    <div>
       <div className='desktop'>
         {renderShuffleButton()}
       </div>
@@ -66,6 +66,7 @@ const Shuffle = () => {
       <BottomDrawer className='list-button-bottom-drawer'>
         {renderShuffleButton()}
       </BottomDrawer>
+      <div className='list-bottom-drawer-padding'/>
     </div>
   </>)
 }

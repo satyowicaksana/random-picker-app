@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button, Typography } from 'antd'
 
 import { randomizer } from 'helpers'
-import { Navbar } from 'components'
+import { Navbar, BottomDrawer } from 'components'
 import { head, tail } from 'assets'
 import './style.less'
 
@@ -18,9 +18,13 @@ const Coin = () => {
     setFront(isHead ? 'head' : 'tail')
   }
 
+  const renderFlipButton = () => (
+    <Button onClick={handleClickFlip} type='primary' size='large'>Flip</Button>
+  )
+
   return (<>
     <Navbar/>
-    <div className='coin-container'>
+    <div className='content-container coin-container'>
       <div onAnimationEnd={() => setToggleFlip(false)} className={`coin ${toggleFlip ? 'flip' : ''} mb-1`}>
         <div className='coin-front p-2'>
           {front !== 'tail'
@@ -46,10 +50,13 @@ const Coin = () => {
         <Title type='secondary' level={3}>{front.toUpperCase()}</Title>
       )}
       </div>
-      <div className='coin-button-container'>
-        <Button onClick={handleClickFlip} type='primary' size='large'>Flip</Button>
+      <div className='coin-button-container desktop'>
+        {renderFlipButton()}
       </div>
     </div>
+    <BottomDrawer>
+      {renderFlipButton()}
+    </BottomDrawer>
   </>)
 }
 

@@ -189,16 +189,16 @@ const Numbers = () => {
                   />
                 </Tooltip>
                 <div>
-                    {results.map((result, i) => (
-                  <div key={`${result}-${i}`}>
-                    <Title
-                      style={{
-                        fontSize: `${getResultFontSize(results.length)}vw`
-                      }}
-                    >
-                      {`${result}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    </Title>
-                  </div>
+                  {results.map((result, i) => (
+                    <div key={`${result}-${i}`}>
+                      <Title
+                        style={{
+                          fontSize: `${getResultFontSize(results.length)}vw`
+                        }}
+                      >
+                        {`${result}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      </Title>
+                    </div>
                   ))}
                 </div>
               </div>

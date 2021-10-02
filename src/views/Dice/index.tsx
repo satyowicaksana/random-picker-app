@@ -61,7 +61,7 @@ const Dice = () => {
     <Navbar
       settingsContent={renderSettingsForm()}
     />
-    <div >
+    <div className='content-container'>
       <Row gutter={{xs: 0, md: 40}} wrap={false}>
         <Col flex='400px' className='desktop'>
           {renderRollButton()}
@@ -83,6 +83,7 @@ const Dice = () => {
           </Row>
         </Col>
       </Row>
+    <div className='button-bottom-drawer-padding'/>
     </div>
     <BottomDrawer>
       {renderRollButton()}

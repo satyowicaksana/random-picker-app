@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Row, Col, List, Modal, Button, Typography, Form, Input, Anchor, notification } from 'antd'
+import { Row, Col, List, Modal, Button, Typography, Form, Input, notification } from 'antd'
 import { MdModeEdit } from 'react-icons/md';
 import { AiFillDelete } from 'react-icons/ai';
 
@@ -171,8 +171,8 @@ const Lists = () => {
           renderItem={(item, i) => (
             <List.Item
               actions={[
-                <a href='#' onClick={() => handleClickShowEditItemModal(i)}><MdModeEdit/></a>,
-                <a href='#' onClick={() => handleClickDeleteItem(i)}><AiFillDelete/></a>
+                <Button type='link' href='#' onClick={() => handleClickShowEditItemModal(i)}><MdModeEdit/></Button>,
+                <Button type='link' href='#' onClick={() => handleClickDeleteItem(i)}><AiFillDelete/></Button>
               ]}
             >
               <List.Item.Meta

@@ -113,7 +113,7 @@ const Groups = () => {
                 renderItem={group => (
                   <List.Item
                     actions={[
-                      <a href='#' onClick={() => handleClickCopyToClipboard(group.join(', '))}><MdContentCopy/></a>,
+                      <Button type='link' onClick={() => handleClickCopyToClipboard(group.join(', '))}><MdContentCopy/></Button>,
                     ]}
                   >
                     <List.Item.Meta

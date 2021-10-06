@@ -27,9 +27,6 @@ const Cards = () => {
       const randomIndex = randomizer.getRandomInteger(0, undrawedCardIndexes.length - 1)
       const randomUndrawedCardIndex = undrawedCardIndexes[randomIndex]
 
-      console.log(randomIndex, 'randomIndex')
-      console.log(randomUndrawedCardIndex, 'randomUndrawedCardIndex')
-
       if(randomUndrawedCardIndex !== undefined) {
         
         //update cards with new drawed card
@@ -49,9 +46,7 @@ const Cards = () => {
     
         //pop random index from undrawed indexes 
         const newUndrawedCardIndexes = [...undrawedCardIndexes]
-        console.log('newUndrawed', newUndrawedCardIndexes)
         newUndrawedCardIndexes.splice(randomIndex, 1)
-        console.log('newUndrawed', newUndrawedCardIndexes)
         setUndrawedCardIndexes(newUndrawedCardIndexes)
       }
     }

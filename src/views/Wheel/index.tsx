@@ -29,7 +29,7 @@ const WheelView = () => {
 
   const handleSpinClick = () => {
     setIsSpinning(true)
-    setSpinResult(randomizer.getRandomInteger(0, names.length))
+    setSpinResult(randomizer.getRandomInteger(0, names.length - 1))
     setDisplayedSpinResult('')
   }
 
@@ -90,6 +90,7 @@ const WheelView = () => {
     <BottomDrawer>
       {renderSpinButton()}
     </BottomDrawer>
+    <div className='button-bottom-drawer-padding'/>
   </>)
 }
 

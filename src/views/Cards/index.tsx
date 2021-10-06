@@ -3,7 +3,7 @@ import { Button, Typography } from 'antd'
 import ReactCardFlip from 'react-card-flip'
 
 import { randomizer } from 'helpers'
-import { Navbar } from 'components'
+import { Navbar, BottomDrawer } from 'components'
 import { Card, cardsData } from './const'
 import './style.less'
 
@@ -56,6 +56,10 @@ const Cards = () => {
       setDisplayedDrawedCardName('')
     }, 500)
   }
+
+  const renderDrawButton = () => (
+    <Button size='large' type='primary' disabled={!undrawedCardIndexes.length} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
+  )
   
   return (<>
     <Navbar/>
@@ -79,9 +83,15 @@ const Cards = () => {
         {displayedDrawedCardName && <Title type='secondary' level={3}>{displayedDrawedCardName}</Title>}
       </div>
       <div className='cards-button-container'>
-        <Button size='large' type='primary' disabled={!undrawedCardIndexes.length} onClick={handleClickDraw} className='cards-button mb-2'>Draw</Button>
+        <div className='desktop'>
+          {renderDrawButton()}
+        </div>
         <Button size='large' disabled={undrawedCardIndexes.length === cardsData.length} onClick={handleClickResetDeck} className='cards-button'>Reset Deck</Button>
       </div>
+      <BottomDrawer>
+        {renderDrawButton()}
+      </BottomDrawer>
+      <div className='button-bottom-drawer-padding'/>
     </div>
   </>)
 }

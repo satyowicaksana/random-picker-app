@@ -74,7 +74,9 @@ const Cards = () => {
                 <img src={card.symbol} alt='' className='cards-card-symbol'/>
                 <img src={card.illustration} alt='' className='cards-card-illustration'/>
               </div>
-              <div className='cards-card'/>
+              <div className='cards-card'>
+                <div className='cards-card-backside-pattern'/>
+              </div>
             </ReactCardFlip>
           </div>
         ))}

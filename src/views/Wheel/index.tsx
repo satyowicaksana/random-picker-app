@@ -46,46 +46,44 @@ const WheelView = () => {
 
   return (<>
     <Navbar/>
-    <div className='wheel-container centering-flex p-3'>
-      <div className='wheel-content-container'>
-        <Row gutter={{xs: 0, lg: 80}}>
-          <Col xs={24} lg={12} className='centering-flex'>
-            <div className='wheel-wheel-container mb-2'>
-              <Wheel
-                mustStartSpinning={isSpinning}
-                prizeNumber={spinResult}
-                data={names.map(name  => ({option: name.option.length > 10 ? `${name.option.substring(0, 10)}...` : name.option}))} // truncate names
-                backgroundColors={namesInput ? ['#FFCF5D', '#50E267', '#00F4F5', '#7ca2d1', '#FF5368', '#FF983B'] : undefined}
-                textColors={['#3d4e64']}
-                radiusLineWidth={names.length > 1 ? 2 : 0}
-                radiusLineColor={namesInput ? '#3d4e64' : undefined}
-                outerBorderColor={'#3d4e64'}
-                outerBorderWidth={16}
-                onStopSpinning={handleClickStopSpinning}
-                textDistance={50}
-              />
-            </div>
-            <div className='wheel-result-container mb-2'>
-              {displayedSpinResult && (
-                <Title type='secondary' level={3}>{displayedSpinResult}</Title>
-              )}
-            </div>
-            <div className='wheel-button-container desktop'>
-              {renderSpinButton()}
-            </div>
-          </Col>
-          <Col xs={24} lg={12}>
-            <TextArea
-              value={namesInput}
-              disabled={isSpinning}
-              onChange={e => setNamesInput(e.target.value)}
-              placeholder="Input names here"
-              autoSize={{ minRows: 4, maxRows: 20 }}
-              className='wheel-names-input'
+    <div className='content-container wheel-content-container'>
+      <Row gutter={{xs: 0, lg: 80}}>
+        <Col xs={24} lg={12} className='centering-flex'>
+          <div className='wheel-wheel-container mb-2'>
+            <Wheel
+              mustStartSpinning={isSpinning}
+              prizeNumber={spinResult}
+              data={names.map(name  => ({option: name.option.length > 10 ? `${name.option.substring(0, 10)}...` : name.option}))} // truncate names
+              backgroundColors={namesInput ? ['#FFCF5D', '#50E267', '#00F4F5', '#7ca2d1', '#FF5368', '#FF983B'] : undefined}
+              textColors={['#3d4e64']}
+              radiusLineWidth={names.length > 1 ? 2 : 0}
+              radiusLineColor={namesInput ? '#3d4e64' : undefined}
+              outerBorderColor={'#3d4e64'}
+              outerBorderWidth={16}
+              onStopSpinning={handleClickStopSpinning}
+              textDistance={50}
             />
-          </Col>
-        </Row>
-      </div>
+          </div>
+          <div className='wheel-result-container mb-2'>
+            {displayedSpinResult && (
+              <Title type='secondary' level={3}>{displayedSpinResult}</Title>
+            )}
+          </div>
+          <div className='wheel-button-container desktop'>
+            {renderSpinButton()}
+          </div>
+        </Col>
+        <Col xs={24} lg={12}>
+          <TextArea
+            value={namesInput}
+            disabled={isSpinning}
+            onChange={e => setNamesInput(e.target.value)}
+            placeholder="Input names here"
+            autoSize={{ minRows: 4, maxRows: 20 }}
+            className='wheel-names-input'
+          />
+        </Col>
+      </Row>
     </div>
     <BottomDrawer>
       {renderSpinButton()}

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { LoadingOutlined } from '@ant-design/icons';
 
 import {
   Home,
@@ -14,10 +15,16 @@ import {
 } from 'views'
 import './App.less';
 
+const renderLoadingDisplay = () => (
+  <div className='content-container centering-flex'>
+    <LoadingOutlined className='app-loading-indicator' spin />
+  </div>
+)
+
 const App = () => (
   <Router>
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className='centering-flex'>
+    <Suspense fallback={renderLoadingDisplay()}>
+    <div className='centering-flex'>
         <div className='app-content-container'>
           <Switch>
             <Route path="/numbers">

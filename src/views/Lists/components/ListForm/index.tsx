@@ -163,9 +163,11 @@ const Lists = () => {
           <Col>
             {renderAddItemButton()}
           </Col>
-          <Col>
-            {renderRemoveListButton()}
-          </Col>
+          {id && (
+            <Col>
+              {renderRemoveListButton()}
+            </Col>
+          )}
         </Row>
       </div>
       <div>

@@ -203,7 +203,7 @@ const Lists = () => {
         </div>
         <Row gutter={16} justify='end'>
           <Col>
-            <Button size='large'>
+            <Button size='large' onClick={() => setShowDeleteModal(false)}>
               Cancel
             </Button>
           </Col>

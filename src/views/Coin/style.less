@@ -12,9 +12,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media @xs, @sm {
-    justify-content: center;
-  }
 }
 .coin {
   position: relative;
@@ -27,9 +24,27 @@
   &.flip {
     animation: rotate3d @turn-time linear;
   }
+  .loop-front(@i) when (@i < @coin-thickness / 2 + 1) {
+    .loop-front(@i + 1);
+    .coin-layer {
+      &:nth-child(@{i}) {
+        transform: translateZ(replace(ipx, i, @i););
+      }
+    }
+  }
+  .loop-back(@i) when (@i < @coin-thickness + 1) {
+    .loop-back(@i + 1);
+    .coin-layer {
+      &:nth-child(@{i}) {
+        transform: translateZ(replace(ipx, i, @i);) rotateY(180deg);
+      }
+    }
+  }
+  /* Run the loop */
+  .loop-front(1);
+  .loop-back(6) //@coin-thickness / 2 + 1;
 }
-.coin-front,
-.coin-back {
+.coin-layer {
   position: absolute;
   border: solid 8px rgb(255,222,80);
   width: @coin-diameter;
@@ -50,34 +65,8 @@
     animation: shine @shine-time linear infinite;
   }
 }
-.coin-front {
-  transform: translateZ(@coin-thickness/2);
-}
-.coin-back {
-  transform: translateZ(-@coin-thickness/2) rotateY(180deg);
-}
 .coin-icon {
   opacity: 0.2
-}
-.coin-edge {
-  .loop(@i) when (@i > 0) {
-    .loop(@i - 1);
-    div {
-      &:nth-child(@{i}) {
-        background: darken( @coin-color, ( (@i - @edge-faces/2) * (@i - @edge-faces/2)) / (@edge-faces*@edge-faces/4) * 100 * 0.1 );;
-        height: @edge-face-length;
-        position: absolute;
-        transform: translateY(@coin-diameter/2-@edge-face-length/2)
-        translateX(@coin-diameter/2-@coin-thickness/2)
-        rotateZ(360deg/@edge-faces*@i+90)
-        translateX(@coin-diameter/2)
-        rotateY(90deg);
-        width: @coin-thickness;
-      }
-    }
-  }
-  /* Run the loop */
-  .loop(@edge-faces);
 }
 .coin-shadow {
   position: absolute;
@@ -87,6 +76,7 @@
   box-shadow: 0 0 @coin-thickness*5 @coin-thickness*5 rgb(150, 150, 150);
   opacity: 0.125;
   transform: rotateX(90deg) translateZ(-@coin-diameter*1.1) scale(.5);
+  background-color: grey;
 }
 .coin-flip-result {
   height: 32px;

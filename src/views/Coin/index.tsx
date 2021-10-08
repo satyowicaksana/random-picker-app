@@ -26,18 +26,16 @@ const Coin = () => {
     <Navbar/>
     <div className='content-container coin-container'>
       <div onAnimationEnd={() => setToggleFlip(false)} className={`coin ${toggleFlip ? 'flip' : ''} mb-1`}>
-        <div className='coin-front p-2'>
+        <div className='coin-layer p-2'>
           {front !== 'tail'
           ? <img src={head} alt='head' className='coin-icon' />
           : <img src={tail} alt='tail' className='coin-icon' />
           }
         </div>
-        <div className='coin-edge'>
-          {Array.from(Array(80).keys()).map(i => (
-            <div key={i}/>
-          ))}
-        </div>
-        <div className={`coin-back p-3 ${toggleFlip ? 'flip' : ''}`}>
+        {Array.from(Array(8).keys()).map(i => (
+          <div key={i} className='coin-layer'/>
+        ))}
+        <div className={`coin-layer p-3 ${toggleFlip ? 'flip' : ''}`}>
           {front !== 'head'
           ? <img src={head} alt='head' className='coin-icon' />
           : <img src={tail} alt='tail' className='coin-icon' />

@@ -52,12 +52,16 @@ const Lists = () => {
       }
       if(id) { //update
         await db.lists.update(Number(id), newList)
+        notification.success({
+          message: 'List updated'
+        })
       } else { //create
         await db.lists.put(newList)
+        history.goBack()
+        notification.success({
+          message: 'List created'
+        })
       }
-      notification.success({
-        message: 'List updated'
-      })
     } catch (err) {
       alert('Failed to save list')
     }
@@ -133,7 +137,7 @@ const Lists = () => {
             </Form.Item>
           </Col>
           <Col className='desktop'>
-            {renderSaveListButton}
+            {renderSaveListButton()}
           </Col>
         </Row>
         <Row justify='space-between'>

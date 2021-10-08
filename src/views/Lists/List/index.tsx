@@ -105,7 +105,7 @@ const Lists = () => {
     <BottomDrawer>
       <Row>
         {menuItems.map(item => (
-          <Col span={6} onClick={() => handleClickChangeTab(item.key)} className={`list-tab-icon-container ${item.key === tab ? 'selected' : ''}`}>
+          <Col key={item.key} span={6} onClick={() => handleClickChangeTab(item.key)} className={`list-tab-icon-container ${item.key === tab ? 'selected' : ''}`}>
             {item.icon}
             <Text>{item.label}</Text>
           </Col>

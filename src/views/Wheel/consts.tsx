@@ -1,0 +1,1 @@
+export const defaultNamesInput = 'Alice\nBob\nCharlie\nDaniel'

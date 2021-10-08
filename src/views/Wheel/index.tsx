@@ -3,28 +3,53 @@ import { Row, Col, Button, Input, Typography } from 'antd'
 import { Wheel } from 'react-custom-roulette'
 
 import { randomizer } from 'helpers'
-import './style.less'
 import { WheelData } from 'react-custom-roulette/dist/components/Wheel/types'
 import { useEffect } from 'react'
 import { Navbar, BottomDrawer } from 'components'
+import { db } from 'storage'
+import { defaultNamesInput } from './consts'
+import './style.less'
 
 const { Title } = Typography
 const { TextArea } = Input
 
 const WheelView = () => {
 
-  const [namesInput, setNamesInput] = useState('Alice\nBob\nCharlie\nDaniel')
+  const [namesInput, setNamesInput] = useState(defaultNamesInput)
   const [names, setNames] = useState<WheelData[]>([{option: ''}])
   const [isSpinning, setIsSpinning] = useState(false);
   const [spinResult, setSpinResult] = useState(0);
   const [displayedSpinResult, setDisplayedSpinResult] = useState('');
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    const setNamesInputWithDbNames = async () => {
+      const wheelForm = await db.wheelForm.get(1)
+      if(wheelForm) {
+        setNamesInput(wheelForm.names)
+      } else {
+        db.wheelForm.put({
+          names: defaultNamesInput
+        })
+      }
+      setIsMounted(true)
+    }
+    setNamesInputWithDbNames()
+  }, [])
+
+  useEffect(() => {
+    const setDbNamesWithDbNamesInput = async () => {
+      await db.wheelForm.update(1, {
+        names: namesInput
+      })
+    }
+    
     if(namesInput) {
       setNames(namesInput.split('\n').map(name => ({option: name})))
     } else {
       setNames([{option: ''}])
     }
+    setDbNamesWithDbNamesInput()
   }, [namesInput])
 
   const handleSpinClick = () => {
@@ -53,7 +78,7 @@ const WheelView = () => {
             <Wheel
               mustStartSpinning={isSpinning}
               prizeNumber={spinResult}
-              data={names.map(name  => ({option: name.option.length > 10 ? `${name.option.substring(0, 10)}...` : name.option}))} // truncate names
+              data={isMounted ? names.map(name  => ({option: name.option.length > 10 ? `${name.option.substring(0, 10)}...` : name.option})) : []} // truncate names
               backgroundColors={namesInput ? ['#FFCF5D', '#50E267', '#00F4F5', '#7ca2d1', '#FF5368', '#FF983B'] : undefined}
               textColors={['#3d4e64']}
               radiusLineWidth={names.length > 1 ? 2 : 0}

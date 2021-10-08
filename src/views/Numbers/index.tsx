@@ -178,9 +178,9 @@ const Numbers = () => {
               {renderSettingsForm()}
             </div>
           </Col>
-          {!!(results.length) && (
-            <Col xs={24} md={12}>
-              <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card p-3 ${toggleCardZoom ? 'zoom' : ''}`}>
+          <Col xs={24} md={12}>
+            <div onAnimationEnd={() => setToggleCardZoom(false)} className={`numbers-card card p-3 ${toggleCardZoom ? 'zoom' : ''}`}>
+              {!!(results.length) && (<>
                 <Tooltip title='Copy to clipboard'>
                   <MdContentCopy
                     size={24}
@@ -201,9 +201,9 @@ const Numbers = () => {
                     </div>
                   ))}
                 </div>
-              </div>
-            </Col>
-          )}
+              </>)}
+            </div>
+          </Col>
         </Row>
       </div>
       <BottomDrawer>
